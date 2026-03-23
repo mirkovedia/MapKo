@@ -128,15 +128,23 @@ export interface PlaceReview {
 
 // ─── Google category mapping ──────────────────────────────────
 export const BUSINESS_CATEGORIES: Record<string, string[]> = {
-  "Restaurants": ["restaurant", "cafe", "bakery", "bar", "meal_delivery", "meal_takeaway"],
-  "Health & Beauty": ["beauty_salon", "hair_care", "spa", "gym", "physiotherapist", "dentist"],
-  "Medical": ["doctor", "hospital", "pharmacy", "veterinary_care", "health"],
-  "Retail": ["store", "clothing_store", "shoe_store", "jewelry_store", "electronics_store", "furniture_store"],
-  "Services": ["plumber", "electrician", "lawyer", "accounting", "insurance_agency", "real_estate_agency"],
-  "Automotive": ["car_repair", "car_dealer", "car_wash", "gas_station"],
+  "Restaurants": ["restaurant", "cafe", "bakery", "bar", "meal_delivery", "meal_takeaway", "food"],
+  "Health & Beauty": ["beauty_salon", "hair_care", "spa", "physiotherapist"],
+  "Medical": ["doctor", "hospital", "pharmacy", "veterinary_care", "health", "dentist"],
+  "Retail": ["store", "clothing_store", "shoe_store", "jewelry_store", "electronics_store", "furniture_store", "hardware_store", "pet_store", "florist", "convenience_store", "supermarket"],
+  "Services": ["plumber", "electrician", "lawyer", "accounting", "insurance_agency", "real_estate_agency", "locksmith", "painter", "moving_company", "travel_agency"],
+  "Automotive": ["car_repair", "car_dealer", "car_wash", "gas_station", "car_rental", "parking"],
   "Education": ["school", "university", "library", "book_store"],
-  "Lodging": ["lodging", "hotel", "motel"],
-  "Entertainment": ["movie_theater", "night_club", "amusement_park", "bowling_alley"],
+  "Lodging": ["lodging", "hotel", "motel", "campground"],
+  "Entertainment": ["movie_theater", "night_club", "amusement_park", "bowling_alley", "casino", "zoo", "aquarium", "museum", "art_gallery", "stadium"],
+  "Fitness": ["gym", "stadium"],
+  "Finance": ["bank", "atm", "finance"],
+  "Construction": ["general_contractor", "roofing_contractor", "home_goods_store"],
+  "Food & Drinks": ["liquor_store", "supermarket", "convenience_store"],
+  "Tech & IT": ["electronics_store"],
+  "Transportation": ["taxi_stand", "bus_station", "transit_station", "airport", "train_station"],
+  "Government": ["local_government_office", "post_office", "courthouse", "fire_station", "police"],
+  "Religion": ["church", "mosque", "hindu_temple", "synagogue"],
   "Other": [],
 };
 

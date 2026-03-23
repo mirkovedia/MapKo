@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --use-npm)",
+      "Read(//c/ClaudecodeProjects/**)",
+      "Bash(mv MapKo mapko-temp)",
+      "Bash(npx create-next-app@latest mapko --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --use-npm)",
+      "Bash(npm init:*)",
+      "Bash(rm package.json)",
+      "Bash(npx create-next-app@latest mapko-app --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --use-npm)"
+    ]
+  }
+}

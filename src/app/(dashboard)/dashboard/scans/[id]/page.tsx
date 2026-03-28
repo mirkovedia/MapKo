@@ -86,6 +86,7 @@ export default function ScanDetailPage() {
   const [filterScore, setFilterScore] = useState("");
   const [searchText, setSearchText] = useState("");
   const [serviceNeed, setServiceNeed] = useState("");
+  const [onlyWhatsApp, setOnlyWhatsApp] = useState(false);
   const [exporting, setExporting] = useState<string | null>(null);
   const [retrying, setRetrying] = useState(false);
   const [deleting, setDeleting] = useState(false);
@@ -248,6 +249,11 @@ export default function ScanDetailPage() {
       });
     }
 
+    // WhatsApp-only filter — only show businesses with mobile numbers
+    if (onlyWhatsApp) {
+      list = list.filter((b) => b.phone && isMobileNumber(b.phone));
+    }
+
     list.sort((a, b) => {
       let valA: number, valB: number;
       switch (sortKey) {
@@ -271,7 +277,7 @@ export default function ScanDetailPage() {
     });
 
     return list;
-  }, [businesses, searchText, filterCategory, filterScore, serviceNeed, sortKey, sortDir]);
+  }, [businesses, searchText, filterCategory, filterScore, serviceNeed, onlyWhatsApp, sortKey, sortDir]);
 
   // ── Score summary ────────────────────────────────────────────
   const summary = useMemo(() => {
@@ -590,6 +596,35 @@ export default function ScanDetailPage() {
                     </button>
                   ))}
                 </div>
+
+                {/* WhatsApp toggle */}
+                <div className="flex items-center gap-3 mt-3 pt-3 border-t border-border/50">
+                  <button
+                    onClick={() => setOnlyWhatsApp(!onlyWhatsApp)}
+                    className={cn(
+                      "relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200",
+                      onlyWhatsApp ? "bg-[#25D366]" : "bg-muted"
+                    )}
+                  >
+                    <span
+                      className={cn(
+                        "inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200",
+                        onlyWhatsApp ? "translate-x-6" : "translate-x-1"
+                      )}
+                    />
+                  </button>
+                  <div className="flex items-center gap-1.5">
+                    <MessageCircle className={cn("h-4 w-4", onlyWhatsApp ? "text-[#25D366]" : "text-muted-foreground")} />
+                    <span className={cn("text-sm font-medium", onlyWhatsApp ? "text-[#25D366]" : "text-muted-foreground")}>
+                      Solo WhatsApp
+                    </span>
+                    {onlyWhatsApp && (
+                      <Badge className="bg-[#25D366]/10 text-[#25D366] border-[#25D366]/20 text-[10px] px-1.5 py-0">
+                        {filtered.length} contactables
+                      </Badge>
+                    )}
+                  </div>
+                </div>
               </div>
 
               {/* Search & Category Filters */}
@@ -669,8 +704,11 @@ export default function ScanDetailPage() {
                       <th className="text-left text-xs font-medium text-muted-foreground uppercase tracking-wider px-4 py-3">
                         Needs
                       </th>
+                      <th className="text-center text-xs font-medium text-muted-foreground uppercase tracking-wider px-4 py-3">
+                        Contact
+                      </th>
                       <th className="text-right text-xs font-medium text-muted-foreground uppercase tracking-wider px-4 py-3">
-                        Actions
+
                       </th>
                     </tr>
                   </thead>
@@ -773,50 +811,51 @@ export default function ScanDetailPage() {
                               )}
                             </div>
                           </td>
-                          <td className="px-4 py-3 text-right">
-                            <div className="flex items-center justify-end gap-1">
-                              {biz.phone && isMobileNumber(biz.phone) && (
+                          {/* Contact column */}
+                          <td className="px-4 py-3 text-center">
+                              {biz.phone && isMobileNumber(biz.phone) ? (
                                 <a
                                   href={`https://wa.me/${formatPhoneForWhatsApp(biz.phone)}?text=${encodeURIComponent("Hola! Encontré su negocio en Google Maps y me gustaría ofrecerle servicios digitales para mejorar su presencia online. ¿Podemos hablar?")}`}
                                   target="_blank"
                                   rel="noopener noreferrer"
                                 >
                                   <Button
-                                    variant="ghost"
                                     size="sm"
-                                    className="h-8 w-8 p-0 text-[#25D366] hover:text-[#1da851] hover:bg-[#25D366]/10"
-                                    title="Contactar via WhatsApp"
+                                    className="bg-[#25D366] hover:bg-[#1da851] text-white border-0 gap-1.5 h-8 px-3"
                                   >
-                                    <MessageCircle className="h-4 w-4" />
+                                    <MessageCircle className="h-3.5 w-3.5" />
+                                    WhatsApp
                                   </Button>
                                 </a>
-                              )}
-                              {biz.phone && !isMobileNumber(biz.phone) && (
+                              ) : biz.phone && !isMobileNumber(biz.phone) ? (
                                 <a href={`tel:${biz.phone.replace(/[\s\-()]/g, "")}`}>
                                   <Button
-                                    variant="ghost"
+                                    variant="outline"
                                     size="sm"
-                                    className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"
-                                    title={`Llamar: ${biz.phone} (teléfono fijo)`}
+                                    className="gap-1.5 h-8 px-3 text-muted-foreground"
                                   >
-                                    <Phone className="h-4 w-4" />
+                                    <Phone className="h-3.5 w-3.5" />
+                                    Fijo
                                   </Button>
                                 </a>
+                              ) : (
+                                <span className="text-xs text-muted-foreground/50">Sin tel.</span>
                               )}
+                          </td>
+                          {/* View detail */}
+                          <td className="px-4 py-3 text-right">
                               <Link href={`/dashboard/businesses/${biz.id}`}>
                                 <Button variant="ghost" size="sm">
                                   <Eye className="h-4 w-4" />
-                                  View
                                 </Button>
                               </Link>
-                            </div>
                           </td>
                         </motion.tr>
                       );
                     })}
                     {filtered.length === 0 && (
                       <tr>
-                        <td colSpan={7} className="px-4 py-12 text-center text-muted-foreground">
+                        <td colSpan={8} className="px-4 py-12 text-center text-muted-foreground">
                           No businesses match the current filters.
                         </td>
                       </tr>

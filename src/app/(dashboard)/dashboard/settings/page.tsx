@@ -18,8 +18,7 @@ import { useProfile } from "@/components/providers/profile-provider";
 import type { PlanTier } from "@/types";
 
 export default function SettingsPage() {
-  const { profile, loading } = useProfile();
-  const [email, setEmail] = useState("");
+  const { profile, email, loading } = useProfile();
   const [companyName, setCompanyName] = useState("");
   const [initialized, setInitialized] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -32,15 +31,6 @@ export default function SettingsPage() {
       setInitialized(true);
     }
   }, [profile, initialized]);
-
-  useEffect(() => {
-    async function getEmail() {
-      const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) setEmail(user.email ?? "");
-    }
-    getEmail();
-  }, []);
 
   async function handleSave() {
     if (!profile) return;

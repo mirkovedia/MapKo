@@ -6,13 +6,13 @@ import { cn } from "@/lib/utils";
 import {
   LayoutDashboard,
   Radar,
-  Building2,
   Download,
   Settings,
   CreditCard,
   LogOut,
   MapPin,
 } from "lucide-react";
+import { LogoMPin } from "@/components/ui/logos";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import { useSidebar } from "@/components/providers/sidebar-provider";
@@ -62,9 +62,7 @@ export function Sidebar() {
     <>
       {/* Logo */}
       <div className="flex items-center gap-3 px-6 py-5">
-        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 shadow-lg shadow-blue-500/20">
-          <Building2 className="h-4.5 w-4.5 text-white" />
-        </div>
+        <LogoMPin size={28} />
         <span className="text-lg font-bold tracking-tight">MapKo</span>
       </div>
 

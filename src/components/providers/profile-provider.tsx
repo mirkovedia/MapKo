@@ -6,12 +6,16 @@ import type { Profile } from "@/types";
 
 interface ProfileContextValue {
   profile: Profile | null;
+  email: string;
+  userId: string | null;
   loading: boolean;
   refresh: () => Promise<void>;
 }
 
 const ProfileContext = createContext<ProfileContextValue>({
   profile: null,
+  email: "",
+  userId: null,
   loading: true,
   refresh: async () => {},
 });
@@ -22,6 +26,8 @@ export function useProfile() {
 
 export function ProfileProvider({ children }: { children: React.ReactNode }) {
   const [profile, setProfile] = useState<Profile | null>(null);
+  const [email, setEmail] = useState("");
+  const [userId, setUserId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   const loadProfile = useCallback(async () => {
@@ -32,6 +38,8 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
         setLoading(false);
         return;
       }
+      setEmail(user.email ?? "");
+      setUserId(user.id);
       const { data } = await supabase
         .from("profiles")
         .select("*")
@@ -50,7 +58,7 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
   }, [loadProfile]);
 
   return (
-    <ProfileContext.Provider value={{ profile, loading, refresh: loadProfile }}>
+    <ProfileContext.Provider value={{ profile, email, userId, loading, refresh: loadProfile }}>
       {children}
     </ProfileContext.Provider>
   );

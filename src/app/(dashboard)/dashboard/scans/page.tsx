@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Radar, Eye, Search, Plus, Trash2 } from "lucide-react";
@@ -8,6 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
+import { useCachedFetch, invalidateCache } from "@/lib/hooks/use-cached-fetch";
 import type { Scan } from "@/types";
 
 const statusConfig: Record<string, { label: string; variant: "warning" | "default" | "success" | "danger"; pulse?: boolean }> = {
@@ -19,10 +20,17 @@ const statusConfig: Record<string, { label: string; variant: "warning" | "defaul
 };
 
 export default function ScansPage() {
+  const { data: scansData, loading, error, refetch } = useCachedFetch<Scan[]>(
+    "/api/scans",
+    { transform: (raw: unknown) => (raw as { scans: Scan[] }).scans || [] }
+  );
   const [scans, setScans] = useState<Scan[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+
+  // Sync cached data to local state for delete mutations
+  if (scansData && scansData !== scans && deletingId === null) {
+    setScans(scansData);
+  }
 
   async function handleDelete(scanId: string) {
     if (!window.confirm("Are you sure you want to delete this scan? This action cannot be undone.")) {
@@ -33,30 +41,15 @@ export default function ScansPage() {
       const res = await fetch(`/api/scans/${scanId}/delete`, { method: "DELETE" });
       if (!res.ok) throw new Error("Failed to delete scan");
       setScans((prev) => prev.filter((s) => s.id !== scanId));
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to delete scan");
+      invalidateCache("/api/scans");
+    } catch {
+      // error handled by useCachedFetch
     } finally {
       setDeletingId(null);
     }
   }
 
-  useEffect(() => {
-    async function load() {
-      try {
-        const res = await fetch("/api/scans");
-        if (!res.ok) throw new Error("Failed to fetch scans");
-        const { scans: data } = await res.json();
-        setScans(data || []);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Something went wrong");
-      } finally {
-        setLoading(false);
-      }
-    }
-    load();
-  }, []);
-
-  if (loading) {
+  if (loading && scans.length === 0) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
         <Spinner size="lg" />
@@ -64,11 +57,11 @@ export default function ScansPage() {
     );
   }
 
-  if (error) {
+  if (error && scans.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
         <p className="text-destructive">{error}</p>
-        <Button onClick={() => window.location.reload()}>Retry</Button>
+        <Button onClick={() => refetch()}>Retry</Button>
       </div>
     );
   }

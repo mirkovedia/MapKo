@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
+import { useCachedFetch } from "@/lib/hooks/use-cached-fetch";
 import { motion } from "framer-motion";
 import {
   Radar,
@@ -65,27 +66,13 @@ const statIconBg = [
 
 export default function DashboardPage() {
   const { profile } = useProfile();
-  const [scans, setScans] = useState<Scan[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { data: scansData, loading, error } = useCachedFetch<Scan[]>(
+    "/api/scans",
+    { transform: (raw: unknown) => (raw as { scans: Scan[] }).scans || [] }
+  );
+  const scans = scansData || [];
 
-  useEffect(() => {
-    async function load() {
-      try {
-        const res = await fetch("/api/scans");
-        if (!res.ok) throw new Error("Failed to fetch scans");
-        const { scans: scanData } = await res.json();
-        setScans(scanData || []);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Something went wrong");
-      } finally {
-        setLoading(false);
-      }
-    }
-    load();
-  }, []);
-
-  if (loading) {
+  if (loading && scans.length === 0) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
         <Spinner size="lg" />

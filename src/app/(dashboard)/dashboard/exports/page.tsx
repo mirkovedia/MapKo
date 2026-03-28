@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Spinner } from "@/components/ui/spinner";
 import { Download, FileSpreadsheet, FileText, Inbox } from "lucide-react";
 import { format } from "date-fns";
+import { useProfile } from "@/components/providers/profile-provider";
 import type { Export, ExportFormat } from "@/types";
 
 interface ExportWithScan extends Export {
@@ -14,27 +15,20 @@ interface ExportWithScan extends Export {
 }
 
 export default function ExportsPage() {
+  const { userId } = useProfile();
   const [exports, setExports] = useState<ExportWithScan[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!userId) return;
     async function fetchExports() {
       try {
         const supabase = createClient();
-        const {
-          data: { user },
-        } = await supabase.auth.getUser();
-
-        if (!user) {
-          setError("Not authenticated");
-          return;
-        }
-
         const { data, error: fetchError } = await supabase
           .from("exports")
           .select("*, scans(query_text)")
-          .eq("user_id", user.id)
+          .eq("user_id", userId)
           .order("created_at", { ascending: false });
 
         if (fetchError) throw fetchError;
@@ -47,7 +41,7 @@ export default function ExportsPage() {
     }
 
     fetchExports();
-  }, []);
+  }, [userId]);
 
   if (loading) {
     return (

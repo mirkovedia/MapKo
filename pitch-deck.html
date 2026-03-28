@@ -1,0 +1,1681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MapKo - Investor Pitch Deck</title>
+
+  <!-- Reveal.js from CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/theme/black.min.css" id="theme">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: #050a18;
+      --bg-surface: #0c1424;
+      --bg-card: #111c32;
+      --blue: #3b82f6;
+      --blue-light: #60a5fa;
+      --blue-glow: rgba(59, 130, 246, 0.3);
+      --purple: #8b5cf6;
+      --purple-light: #a78bfa;
+      --purple-glow: rgba(139, 92, 246, 0.25);
+      --green: #22c55e;
+      --green-glow: rgba(34, 197, 94, 0.25);
+      --red: #ef4444;
+      --red-glow: rgba(239, 68, 68, 0.25);
+      --orange: #f59e0b;
+      --orange-glow: rgba(245, 158, 11, 0.25);
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --border: rgba(148, 163, 184, 0.08);
+    }
+
+    .reveal {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 18px;
+      color: var(--text);
+    }
+
+    .reveal .slides {
+      text-align: left;
+    }
+
+    .reveal .slides section {
+      padding: 40px 60px;
+      height: 100%;
+      box-sizing: border-box;
+    }
+
+    /* Override reveal backgrounds */
+    .reveal .slide-background {
+      background: var(--bg-dark) !important;
+    }
+
+    /* ─── Typography ─────────────────────────────────────── */
+    .reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      text-transform: none;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      text-align: left;
+      margin: 0;
+    }
+
+    .reveal h1 { font-size: 2.8em; line-height: 1.1; }
+    .reveal h2 { font-size: 2.0em; line-height: 1.2; }
+    .reveal h3 { font-size: 1.3em; line-height: 1.3; font-weight: 600; }
+    .reveal p { line-height: 1.6; color: var(--text-muted); margin: 0; }
+
+    /* ─── Utility classes ────────────────────────────────── */
+    .text-blue { color: var(--blue); }
+    .text-purple { color: var(--purple); }
+    .text-green { color: var(--green); }
+    .text-red { color: var(--red); }
+    .text-orange { color: var(--orange); }
+    .text-white { color: var(--text) !important; }
+    .text-muted { color: var(--text-muted); }
+    .text-dim { color: var(--text-dim); }
+    .text-center { text-align: center !important; }
+    .text-sm { font-size: 0.85em; }
+    .text-xs { font-size: 0.75em; }
+    .text-lg { font-size: 1.2em; }
+
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+    .font-bold { font-weight: 700; }
+    .font-semibold { font-weight: 600; }
+    .font-light { font-weight: 300; }
+    .font-black { font-weight: 900; }
+
+    .mt-0 { margin-top: 0 !important; }
+    .mt-1 { margin-top: 8px; }
+    .mt-2 { margin-top: 16px; }
+    .mt-3 { margin-top: 24px; }
+    .mt-4 { margin-top: 32px; }
+    .mt-5 { margin-top: 48px; }
+    .mb-1 { margin-bottom: 8px; }
+    .mb-2 { margin-bottom: 16px; }
+    .mb-3 { margin-bottom: 24px; }
+    .mb-4 { margin-bottom: 32px; }
+    .gap-1 { gap: 8px; }
+    .gap-2 { gap: 16px; }
+    .gap-3 { gap: 24px; }
+    .gap-4 { gap: 32px; }
+
+    .flex { display: flex; }
+    .flex-col { flex-direction: column; }
+    .items-center { align-items: center; }
+    .items-start { align-items: flex-start; }
+    .justify-center { justify-content: center; }
+    .justify-between { justify-content: space-between; }
+    .flex-1 { flex: 1; }
+    .w-full { width: 100%; }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 20px;
+    }
+    .grid-4 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      gap: 16px;
+    }
+
+    /* ─── Slide backgrounds (per-slide) ─────────────────── */
+    section[data-background-gradient] {
+      background: transparent !important;
+    }
+
+    /* ─── Components ─────────────────────────────────────── */
+    .badge {
+      display: inline-block;
+      padding: 6px 16px;
+      border-radius: 100px;
+      font-size: 0.7em;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .badge-blue {
+      background: rgba(59, 130, 246, 0.12);
+      color: var(--blue-light);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+    }
+    .badge-purple {
+      background: rgba(139, 92, 246, 0.12);
+      color: var(--purple-light);
+      border: 1px solid rgba(139, 92, 246, 0.2);
+    }
+    .badge-green {
+      background: rgba(34, 197, 94, 0.12);
+      color: #4ade80;
+      border: 1px solid rgba(34, 197, 94, 0.2);
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+    }
+
+    .card-glow-blue {
+      box-shadow: 0 0 40px rgba(59, 130, 246, 0.06), inset 0 1px 0 rgba(59, 130, 246, 0.1);
+    }
+    .card-glow-purple {
+      box-shadow: 0 0 40px rgba(139, 92, 246, 0.06), inset 0 1px 0 rgba(139, 92, 246, 0.1);
+    }
+    .card-glow-green {
+      box-shadow: 0 0 40px rgba(34, 197, 94, 0.06), inset 0 1px 0 rgba(34, 197, 94, 0.1);
+    }
+    .card-glow-red {
+      box-shadow: 0 0 40px rgba(239, 68, 68, 0.06), inset 0 1px 0 rgba(239, 68, 68, 0.1);
+    }
+
+    .metric-box {
+      text-align: center;
+      padding: 24px 16px;
+    }
+    .metric-value {
+      font-size: 2.4em;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .metric-label {
+      font-size: 0.75em;
+      color: var(--text-dim);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .icon-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+    .icon-blue {
+      background: rgba(59, 130, 246, 0.12);
+      color: var(--blue);
+    }
+    .icon-purple {
+      background: rgba(139, 92, 246, 0.12);
+      color: var(--purple);
+    }
+    .icon-green {
+      background: rgba(34, 197, 94, 0.12);
+      color: var(--green);
+    }
+    .icon-red {
+      background: rgba(239, 68, 68, 0.12);
+      color: var(--red);
+    }
+    .icon-orange {
+      background: rgba(245, 158, 11, 0.12);
+      color: var(--orange);
+    }
+
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 20px 0;
+    }
+
+    /* ─── Pricing table ──────────────────────────────────── */
+    .pricing-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 24px;
+      text-align: center;
+      position: relative;
+    }
+    .pricing-card.featured {
+      border-color: var(--blue);
+      box-shadow: 0 0 60px rgba(59, 130, 246, 0.1), 0 0 0 1px rgba(59, 130, 246, 0.3);
+    }
+    .pricing-card.featured::after {
+      content: 'MOST POPULAR';
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      color: white;
+      font-size: 0.6em;
+      font-weight: 700;
+      padding: 4px 16px;
+      border-radius: 100px;
+      letter-spacing: 0.1em;
+    }
+    .pricing-price {
+      font-size: 2.2em;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+    .pricing-period {
+      font-size: 0.4em;
+      font-weight: 400;
+      color: var(--text-dim);
+      letter-spacing: 0;
+    }
+    .pricing-features {
+      list-style: none;
+      padding: 0;
+      margin: 16px 0 0;
+      font-size: 0.82em;
+    }
+    .pricing-features li {
+      padding: 5px 0;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .pricing-features li::before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--blue);
+      flex-shrink: 0;
+    }
+
+    /* ─── Progress bar / chart bar ───────────────────────── */
+    .bar-chart {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .bar-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .bar-label {
+      font-size: 0.8em;
+      color: var(--text-muted);
+      width: 80px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+    .bar-track {
+      flex: 1;
+      height: 28px;
+      background: rgba(255,255,255,0.03);
+      border-radius: 6px;
+      overflow: hidden;
+      position: relative;
+    }
+    .bar-fill {
+      height: 100%;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      font-size: 0.75em;
+      font-weight: 600;
+      color: white;
+      transition: width 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* ─── Step number circles ────────────────────────────── */
+    .step-number {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1em;
+      flex-shrink: 0;
+    }
+
+    /* ─── Competitive matrix ─────────────────────────────── */
+    .matrix-wrapper {
+      position: relative;
+      width: 380px;
+      height: 340px;
+      margin: 0 auto;
+    }
+    .matrix-bg {
+      position: absolute;
+      inset: 30px;
+      border-left: 1px solid rgba(255,255,255,0.08);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .matrix-label {
+      position: absolute;
+      font-size: 0.65em;
+      color: var(--text-dim);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .matrix-dot {
+      position: absolute;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.55em;
+      font-weight: 600;
+      line-height: 1.2;
+      text-align: center;
+      z-index: 2;
+      transition: transform 0.3s;
+    }
+    .matrix-dot:hover {
+      transform: scale(1.15);
+    }
+
+    /* ─── Timeline ───────────────────────────────────────── */
+    .timeline {
+      display: flex;
+      align-items: flex-start;
+      gap: 0;
+      position: relative;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      top: 18px;
+      left: 24px;
+      right: 24px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--green), var(--blue), var(--purple));
+      opacity: 0.3;
+    }
+    .timeline-item {
+      flex: 1;
+      text-align: center;
+      position: relative;
+      padding: 0 8px;
+    }
+    .timeline-dot {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      margin: 0 auto 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75em;
+      font-weight: 700;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ─── Gradient text ──────────────────────────────────── */
+    .gradient-text {
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .gradient-text-green {
+      background: linear-gradient(135deg, #22c55e, #3b82f6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ─── Glow effects ───────────────────────────────────── */
+    .glow-blue {
+      filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.3));
+    }
+    .glow-purple {
+      filter: drop-shadow(0 0 20px rgba(139, 92, 246, 0.3));
+    }
+
+    /* ─── Background orbs ────────────────────────────────── */
+    .bg-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.15;
+      pointer-events: none;
+    }
+
+    /* ─── Score gauge ────────────────────────────────────── */
+    .score-gauge {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8em;
+      font-weight: 800;
+      position: relative;
+      margin: 0 auto;
+    }
+    .score-gauge::before {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border-radius: 50%;
+      padding: 3px;
+      background: conic-gradient(var(--red), var(--orange), var(--green) 75%, transparent 75%);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+    }
+
+    /* ─── MapKo logo ─────────────────────────────────────── */
+    .logo-mark {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .logo-icon {
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, var(--blue), var(--purple));
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      box-shadow: 0 8px 32px rgba(59, 130, 246, 0.25);
+    }
+    .logo-text {
+      font-size: 2.2em;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+    }
+    .logo-text span {
+      color: var(--blue);
+    }
+
+    /* ─── Pin markers ────────────────────────────────────── */
+    .pin {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      position: relative;
+    }
+    .pin::after {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border-radius: 50%;
+      opacity: 0.3;
+    }
+    .pin-red { background: var(--red); box-shadow: 0 0 8px var(--red-glow); }
+    .pin-orange { background: var(--orange); box-shadow: 0 0 8px var(--orange-glow); }
+    .pin-green { background: var(--green); box-shadow: 0 0 8px var(--green-glow); }
+
+    /* ─── Animated gradient border ───────────────────────── */
+    @keyframes borderRotate {
+      from { --angle: 0deg; }
+      to { --angle: 360deg; }
+    }
+
+    /* ─── Slide-specific backgrounds ─────────────────────── */
+    .slide-title { position: relative; }
+    .slide-title .bg-orb-1 {
+      width: 500px; height: 500px;
+      background: var(--blue);
+      top: -200px; right: -100px;
+    }
+    .slide-title .bg-orb-2 {
+      width: 400px; height: 400px;
+      background: var(--purple);
+      bottom: -150px; left: -100px;
+    }
+
+    /* ─── Fragment transition override ───────────────────── */
+    .reveal .slides section .fragment {
+      transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .reveal .slides section .fragment.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ─── Custom scrollbar for long slides ───────────────── */
+    .reveal .slides section::-webkit-scrollbar { width: 4px; }
+    .reveal .slides section::-webkit-scrollbar-thumb { background: var(--text-dim); border-radius: 2px; }
+
+    /* ─── Slide number styling ───────────────────────────── */
+    .reveal .slide-number {
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: var(--text-dim);
+      background: transparent;
+      right: 24px;
+      bottom: 20px;
+    }
+
+    /* ─── Progress bar styling ───────────────────────────── */
+    .reveal .progress {
+      height: 3px;
+      color: var(--blue);
+    }
+
+    /* ─── Fake map graphic ───────────────────────────────── */
+    .map-preview {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      position: relative;
+      overflow: hidden;
+      height: 200px;
+    }
+    .map-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 30px 30px;
+    }
+    .map-road {
+      position: absolute;
+      background: rgba(255,255,255,0.04);
+    }
+    .map-pin {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 12px currentColor;
+    }
+    .map-pin::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      background: currentColor;
+      opacity: 0.15;
+    }
+
+    /* ─── Revenue chart ──────────────────────────────────── */
+    .revenue-chart {
+      display: flex;
+      align-items: flex-end;
+      gap: 12px;
+      height: 200px;
+      padding: 0 8px;
+    }
+    .revenue-bar-wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      height: 100%;
+      justify-content: flex-end;
+    }
+    .revenue-bar {
+      width: 100%;
+      border-radius: 6px 6px 2px 2px;
+      min-height: 4px;
+      position: relative;
+    }
+    .revenue-bar-label {
+      font-size: 0.65em;
+      color: var(--text-dim);
+      font-weight: 500;
+    }
+    .revenue-bar-value {
+      font-size: 0.7em;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    /* ─── Animations ─────────────────────────────────────── */
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+    @keyframes pulse-glow {
+      0%, 100% { opacity: 0.15; }
+      50% { opacity: 0.25; }
+    }
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate-float { animation: float 4s ease-in-out infinite; }
+    .animate-pulse-glow { animation: pulse-glow 3s ease-in-out infinite; }
+
+    /* ─── Reveal overrides ───────────────────────────────── */
+    .reveal .controls { color: var(--blue); }
+    .reveal .controls button { color: var(--blue) !important; }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- ============================================================ -->
+      <!-- SLIDE 1: TITLE -->
+      <!-- ============================================================ -->
+      <section data-background-gradient="radial-gradient(ellipse at 70% 20%, rgba(59,130,246,0.08) 0%, transparent 60%), radial-gradient(ellipse at 20% 80%, rgba(139,92,246,0.06) 0%, transparent 50%), #050a18">
+        <div class="flex flex-col justify-center items-center" style="height: 100%; text-align: center; position: relative;">
+          <!-- Background orbs -->
+          <div class="bg-orb animate-pulse-glow" style="width: 600px; height: 600px; background: var(--blue); top: -250px; right: -150px;"></div>
+          <div class="bg-orb animate-pulse-glow" style="width: 450px; height: 450px; background: var(--purple); bottom: -200px; left: -100px; animation-delay: 1.5s;"></div>
+
+          <div style="position: relative; z-index: 2;">
+            <!-- Logo -->
+            <div style="display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 32px;">
+              <div style="width: 72px; height: 72px; background: linear-gradient(135deg, var(--blue), var(--purple)); border-radius: 20px; display: flex; align-items: center; justify-content: center; box-shadow: 0 12px 40px rgba(59, 130, 246, 0.3);">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+              </div>
+              <div style="font-size: 3.2em; font-weight: 800; letter-spacing: -0.04em;">
+                Map<span style="color: var(--blue);">Ko</span>
+              </div>
+            </div>
+
+            <!-- Tagline -->
+            <h2 style="font-size: 1.4em; font-weight: 400; color: var(--text-muted); max-width: 700px; margin: 0 auto 16px; text-align: center; line-height: 1.5;">
+              Find businesses that need digital services.<br>
+              <span class="gradient-text font-semibold">Sell to them.</span>
+            </h2>
+
+            <p style="font-size: 0.85em; color: var(--text-dim); margin-top: 32px;">
+              B2B SaaS for Digital Service Providers
+            </p>
+
+            <div style="margin-top: 48px; display: flex; align-items: center; justify-content: center; gap: 24px;">
+              <span class="badge badge-blue">Seed Round</span>
+              <span style="font-size: 0.8em; color: var(--text-dim);">March 2026</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- SLIDE 2: PROBLEM -->
+      <!-- ============================================================ -->
+      <section data-background-gradient="radial-gradient(ellipse at 30% 70%, rgba(239,68,68,0.06) 0%, transparent 50%), #050a18">
+        <div style="height: 100%; display: flex; flex-direction: column; justify-content: center;">
+          <span class="badge badge-purple" style="margin-bottom: 16px;">THE PROBLEM</span>
+          <h2 style="margin-bottom: 8px;">Finding clients is a <span class="text-red">nightmare</span><br>for digital service providers</h2>
+          <p style="max-width: 600px; margin-bottom: 36px;">Freelancers and agencies waste hours every week scrolling Google Maps, manually checking businesses, and guessing who might need their services.</p>
+
+          <div class="grid-3">
+            <!-- Pain point 1 -->
+            <div class="card card-glow-red" style="display: flex; flex-direction: column; gap: 16px;">
+              <div class="icon-circle icon-red">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </div>
+              <h3 style="font-size: 1em;">Hours of Manual Research</h3>
+              <p class="text-sm">Scrolling through Google Maps, clicking each business, checking if they have a website, social media... one by one.</p>
+              <div style="margin-top: auto; padding-top: 12px;">
+                <span class="metric-value text-red" style="font-size: 1.6em;">6-10 hrs</span>
+                <span class="metric-label" style="display: block;">wasted per week</span>
+              </div>
+            </div>
+
+            <!-- Pain point 2 -->
+            <div class="card card-glow-red" style="display: flex; flex-direction: column; gap: 16px;">
+              <div class="icon-circle icon-red">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+              </div>
+              <h3 style="font-size: 1em;">Blind Cold Outreach</h3>
+              <p class="text-sm">No way to know which businesses actually NEED digital services. Cold emails and calls feel like shots in the dark.</p>
+              <div style="margin-top: auto; padding-top: 12px;">
+                <span class="metric-value text-red" style="font-size: 1.6em;">2-3%</span>
+                <span class="metric-label" style="display: block;">cold outreach conversion</span>
+              </div>
+            </div>
+
+            <!-- Pain point 3 -->
+            <div class="card card-glow-red" style="display: flex; flex-direction: column; gap: 16px;">
+              <div class="icon-circle icon-red">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              </div>
+              <h3 style="font-size: 1em;">Lost Revenue</h3>
+              <p class="text-sm">While you're researching, competitors are closing deals. Every hour prospecting is an hour NOT building or billing.</p>
+              <div style="margin-top: auto; padding-top: 12px;">
+                <span class="metric-value text-red" style="font-size: 1.6em;">$2,400</span>
+                <span class="metric-label" style="display: block;">lost revenue / month</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- SLIDE 3: SOLUTION -->
+      <!-- ============================================================ -->
+      <section data-background-gradient="radial-gradient(ellipse at 60% 30%, rgba(59,130,246,0.08) 0%, transparent 50%), radial-gradient(ellipse at 30% 80%, rgba(34,197,94,0.05) 0%, transparent 50%), #050a18">
+        <div style="height: 100%; display: flex; flex-direction: column; justify-content: center;">
+          <span class="badge badge-blue" style="margin-bottom: 16px;">THE SOLUTION</span>
+          <h2 style="margin-bottom: 8px;">MapKo scans Google Maps and<br>finds your <span class="gradient-text">perfect clients</span></h2>
+          <p style="max-width: 650px; margin-bottom: 36px;">A B2B intelligence tool that bulk-scans any geographic zone, analyzes every business's digital presence, and scores them on how much they need YOUR services.</p>
+
+          <div class="grid-2" style="gap: 20px;">
+            <!-- Left: Key features -->
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+              <div class="flex items-center gap-2">
+                <div class="icon-circle icon-blue" style="width: 40px; height: 40px; border-radius: 10px; font-size: 18px;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                </div>
+                <div>
+                  <h3 style="font-size: 0.9em; margin-bottom: 2px;">Bulk Zone Scanning</h3>
+                  <p class="text-sm" style="margin: 0;">Scan 60+ businesses per zone via Google Places API</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <div class="icon-circle icon-purple" style="width: 40px; height: 40px; border-radius: 10px; font-size: 18px;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                </div>
+                <div>
+                  <h3 style="font-size: 0.9em; margin-bottom: 2px;">Deep Digital Analysis</h3>
+                  <p class="text-sm" style="margin: 0;">Website, SSL, mobile, social media, reviews, booking</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <div class="icon-circle icon-green" style="width: 40px; height: 40px; border-radius: 10px; font-size: 18px;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                </div>
+                <div>
+                  <h3 style="font-size: 0.9em; margin-bottom: 2px;">Opportunity Score (0-100)</h3>
+                  <p class="text-sm" style="margin: 0;">AI-powered scoring on how much they need your services</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <div class="icon-circle icon-orange" style="width: 40px; height: 40px; border-radius: 10px; font-size: 18px;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                </div>
+                <div>
+                  <h3 style="font-size: 0.9em; margin-bottom: 2px;">Built-in Outreach Tools</h3>
+                  <p class="text-sm" style="margin: 0;">WhatsApp click-to-chat, email templates, PDF reports</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: Visual score card mockup -->
+            <div class="card card-glow-blue" style="padding: 24px;">
+              <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 20px;">
+                <div>
+                  <div style="font-size: 0.7em; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px;">Business Analysis</div>
+                  <div style="font-size: 1.1em; font-weight: 600;">Restaurante El Patio</div>
+                  <div style="font-size: 0.75em; color: var(--text-dim);">Av. Monsenor Rivero, Santa Cruz</div>
+                </div>
+                <div style="width: 64px; height: 64px; border-radius: 50%; background: conic-gradient(var(--red) 0% 78%, rgba(255,255,255,0.05) 78% 100%); display: flex; align-items: center; justify-content: center;">
+                  <div style="width: 52px; height: 52px; border-radius: 50%; background: var(--bg-card); display: flex; align-items: center; justify-content: center; font-size: 1.2em; font-weight: 800; color: var(--red);">78</div>
+                </div>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.78em;">
+                <div style="display: flex; align-items: center; justify-content: space-between; padding: 6px 10px; background: rgba(239,68,68,0.08); border-radius: 6px;">
+                  <span style="color: var(--text-muted);">Website</span>
+                  <span style="color: var(--red); font-weight: 600;">No website</span>
+                </div>
+                <div style="display: flex; align-items: center; justify-content: space-between; padding: 6px 10px; background: rgba(239,68,68,0.08); border-radius: 6px;">
+                  <span style="color: var(--text-muted);">Social Media</span>
+                  <span style="color: var(--red); font-weight: 600;">Not found</span>
+                </div>
+                <div style="display: flex; align-items: center; justify-content: space-between; padding: 6px 10px; background: rgba(245,158,11,0.08); border-radius: 6px;">
+                  <span style="color: var(--text-muted);">Google Reviews</span>
+                  <span style="color: var(--orange); font-weight: 600;">8 reviews (3.2/5)</span>
+                </div>
+                <div style="display: flex; align-items: center; justify-content: space-between; padding: 6px 10px; background: rgba(239,68,68,0.08); border-radius: 6px;">
+                  <span style="color: var(--text-muted);">Online Booking</span>
+                  <span style="color: var(--red); font-weight: 600;">None</span>
+                </div>
+                <div style="display: flex; align-items: center; justify-content: space-between; padding: 6px 10px; background: rgba(34,197,94,0.08); border-radius: 6px;">
+                  <span style="color: var(--text-muted);">WhatsApp</span>
+                  <span style="color: var(--green); font-weight: 600;">Available</span>
+                </div>
+              </div>
+              <div style="margin-top: 16px; padding: 10px 14px; background: rgba(59,130,246,0.08); border-radius: 8px; border: 1px solid rgba(59,130,246,0.15);">
+                <div style="font-size: 0.7em; color: var(--blue); font-weight: 600; margin-bottom: 4px;">RECOMMENDATION</div>
+                <div style="font-size: 0.78em; color: var(--text-muted);">Offer web design + social media setup. High opportunity.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- SLIDE 4: HOW IT WORKS -->
+      <!-- ============================================================ -->
+      <section data-background-gradient="radial-gradient(ellipse at 50% 50%, rgba(139,92,246,0.06) 0%, transparent 50%), #050a18">
+        <div style="height: 100%; display: flex; flex-direction: column; justify-content: center;">
+          <span class="badge badge-purple" style="margin-bottom: 16px;">HOW IT WORKS</span>
+          <h2 style="margin-bottom: 40px;">Three steps to your <span class="gradient-text">next client</span></h2>
+
+          <div class="grid-3" style="gap: 28px;">
+            <!-- Step 1 -->
+            <div class="card card-glow-blue" style="display: flex; flex-direction: column; gap: 20px; padding: 32px 28px;">
+              <div class="step-number" style="background: linear-gradient(135deg, var(--blue), #2563eb); color: white;">1</div>
+              <div>
+                <h3 style="font-size: 1.1em; margin-bottom: 8px;">Choose Your Zone</h3>
+                <p class="text-sm">Select any area on the map. Choose business categories (restaurants, salons, clinics...) and set your radius. MapKo targets up to 18 categories across any city.</p>
+              </div>
+              <!-- Mini visual -->
+              <div style="background: var(--bg-surface); border-radius: 8px; padding: 16px; margin-top: auto;">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
+                  <span style="font-size: 0.72em; color: var(--text-muted);">Santa Cruz, Bolivia - 5km radius</span>
+                </div>
+                <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                  <span style="font-size: 0.6em; padding: 3px 8px; background: rgba(59,130,246,0.1); border-radius: 4px; color: var(--blue-light);">Restaurants</span>
+                  <span style="font-size: 0.6em; padding: 3px 8px; background: rgba(139,92,246,0.1); border-radius: 4px; color: var(--purple-light);">Health & Beauty</span>
+                  <span style="font-size: 0.6em; padding: 3px 8px; background: rgba(34,197,94,0.1); border-radius: 4px; color: #4ade80;">Retail</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="card card-glow-purple" style="display: flex; flex-direction: column; gap: 20px; padding: 32px 28px;">
+              <div class="step-number" style="background: linear-gradient(135deg, var(--purple), #7c3aed); color: white;">2</div>
+              <div>
+                <h3 style="font-size: 1.1em; margin-bottom: 8px;">MapKo Scans & Analyzes</h3>
+                <p class="text-sm">Our engine scans 60+ businesses via Google Places API, then deep-analyzes each one: website quality, SSL, mobile responsive, social media, reviews, booking systems, and more.</p>
+              </div>
+              <!-- Mini visual: analysis breakdown -->
+              <div style="background: var(--bg-surface); border-radius: 8px; padding: 16px; margin-top: auto;">
+                <div style="display: flex; flex-direction: column; gap: 6px;">
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <div style="width: 100%; height: 6px; background: rgba(255,255,255,0.05); border-radius: 3px; overflow: hidden;">
+                      <div style="width: 85%; height: 100%; background: linear-gradient(90deg, var(--blue), var(--purple)); border-radius: 3px;"></div>
+                    </div>
+                    <span style="font-size: 0.65em; color: var(--text-dim); width: 50px; text-align: right;">85%</span>
+                  </div>
+                  <span style="font-size: 0.65em; color: var(--text-dim);">Analyzing 64 businesses...</span>
+                  <div style="display: flex; gap: 12px; font-size: 0.6em; color: var(--text-muted);">
+                    <span>12 factors checked</span>
+                    <span>per business</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="card card-glow-green" style="display: flex; flex-direction: column; gap: 20px; padding: 32px 28px;">
+              <div class="step-number" style="background: linear-gradient(135deg, var(--green), #16a34a); color: white;">3</div>
+              <div>
+                <h3 style="font-size: 1.1em; margin-bottom: 8px;">Reach Out & Close Deals</h3>
+                <p class="text-sm">View results on an interactive map with color-coded pins. Export as CSV/XLSX, generate PDF reports, or click-to-WhatsApp for instant contact with high-opportunity leads.</p>
+              </div>
+              <!-- Mini visual: export options -->
+              <div style="background: var(--bg-surface); border-radius: 8px; padding: 16px; margin-top: auto;">
+                <div style="display: flex; gap: 8px;">
+                  <div style="flex: 1; padding: 8px; background: rgba(34,197,94,0.08); border-radius: 6px; text-align: center;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" style="margin: 0 auto 4px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    <div style="font-size: 0.6em; color: #4ade80;">CSV/XLSX</div>
+                  </div>
+                  <div style="flex: 1; padding: 8px; background: rgba(59,130,246,0.08); border-radius: 6px; text-align: center;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" style="margin: 0 auto 4px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                    <div style="font-size: 0.6em; color: var(--blue-light);">PDF Report</div>
+                  </div>
+                  <div style="flex: 1; padding: 8px; background: rgba(34,197,94,0.08); border-radius: 6px; text-align: center;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" style="margin: 0 auto 4px;"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                    <div style="font-size: 0.6em; color: #4ade80;">WhatsApp</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- SLIDE 5: PRODUCT DEMO -->
+      <!-- ============================================================ -->
+      <section data-background-gradient="radial-gradient(ellipse at 40% 30%, rgba(59,130,246,0.08) 0%, transparent 50%), #050a18">
+        <div style="height: 100%; display: flex; flex-direction: column; justify-content: center;">
+          <span class="badge badge-blue" style="margin-bottom: 16px;">PRODUCT</span>
+          <h2 style="margin-bottom: 36px;">Built for <span class="gradient-text">speed and clarity</span></h2>
+
+          <div class="grid-2" style="gap: 20px; flex: 1; min-height: 0;">
+            <!-- Screen 1: Interactive Map -->
+            <div class="card card-glow-blue" style="padding: 0; overflow: hidden; display: flex; flex-direction: column;">
+              <div style="padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px;">
+                <div style="width: 8px; height: 8px; border-radius: 50%; background: #ef4444;"></div>
+                <div style="width: 8px; height: 8px; border-radius: 50%; background: #f59e0b;"></div>
+                <div style="width: 8px; height: 8px; border-radius: 50%; background: #22c55e;"></div>
+                <span style="font-size: 0.7em; color: var(--text-dim); margin-left: 8px;">Interactive Scan Map</span>
+              </div>
+              <div class="map-preview" style="flex: 1; border-radius: 0; border: none; min-height: 180px;">
+                <div class="map-grid"></div>
+                <!-- Roads -->
+                <div class="map-road" style="top: 40%; left: 0; right: 0; height: 2px;"></div>
+                <div class="map-road" style="top: 0; bottom: 0; left: 55%; width: 2px;"></div>
+                <div class="map-road" style="top: 65%; left: 10%; right: 20%; height: 1.5px; transform: rotate(-8deg);"></div>
+                <div class="map-road" style="top: 20%; left: 20%; right: 40%; height: 1.5px;"></div>
+                <!-- Pins: Red = high opportunity, Orange = medium, Green = already digital -->
+                <div class="map-pin" style="top: 25%; left: 30%; color: var(--red); background: var(--red);"></div>
+                <div class="map-pin" style="top: 35%; left: 65%; color: var(--red); background: var(--red);"></div>
+                <div class="map-pin" style="top: 55%; left: 45%; color: var(--red); background: var(--red);"></div>
+                <div class="map-pin" style="top: 70%; left: 25%; color: var(--orange); background: var(--orange);"></div>
+                <div class="map-pin" style="top: 30%; left: 48%; color: var(--orange); background: var(--orange);"></div>
+                <div class="map-pin" style="top: 80%; left: 70%; color: var(--green); background: var(--green);"></div>
+                <div class="map-pin" style="top: 45%; left: 80%; color: var(--green); background: var(--green);"></div>
+                <div class="map-pin" style="top: 15%; left: 72%; color: var(--red); background: var(--red);"></div>
+                <div class="map-pin" style="top: 60%; left: 15%; color: var(--orange); background: var(--orange);"></div>
+                <!-- Legend -->
+                <div style="position: absolute; bottom: 12px; left: 12px; display: flex; gap: 12px; font-size: 0.65em; background: rgba(5,10,24,0.85); padding: 6px 12px; border-radius: 6px;">
+                  <span style="display: flex; align-items: center; gap: 4px;"><span class="pin pin-red"></span> <span style="color: var(--text-dim);">High Opp.</span></span>
+                  <span style="display: flex; align-items: center; gap: 4px;"><span class="pin pin-orange"></span> <span style="color: var(--text-dim);">Medium</span></span>
+                  <span style="display: flex; align-items: center; gap: 4px;"><span class="pin pin-green"></span> <span style="color: var(--text-dim);">Digital</span></span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Screen 2: Dashboard Stats + Features -->
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+              <!-- Dashboard mini -->
+              <div class="card card-glow-purple" style="padding: 20px;">
+                <div style="font-size: 0.7em; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px;">Scan Dashboard</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px;">
+                  <div style="text-align: center;">
+                    <div style="font-size: 1.6em; font-weight: 800; color: var(--blue);">64</div>
+                    <div style="font-size: 0.65em; color: var(--text-dim);">Businesses Found</div>
+                  </div>
+                  <div style="text-align: center;">
+                    <div style="font-size: 1.6em; font-weight: 800; color: var(--red);">38</div>
+                    <div style="font-size: 0.65em; color: var(--text-dim);">Need Services</div>
+                  </div>
+                  <div style="text-align: center;">
+                    <div style="font-size: 1.6em; font-weight: 800; color: var(--green);">72</div>
+                    <div style="font-size: 0.65em; color: var(--text-dim);">Avg. Score</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Feature highlights -->
+              <div class="card" style="padding: 20px; display: flex; flex-direction: column; gap: 10px;">
+                <div style="font-size: 0.7em; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px;">Key Features</div>
+                <div style="display: flex; align-items: center; gap: 10px; font-size: 0.82em;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span style="color: var(--text-muted);">18 business categories across any city</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px; font-size: 0.82em;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span style="color: var(--text-muted);">12-factor deep analysis per business</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px; font-size: 0.82em;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span style="color: var(--text-muted);">Filter by need: website, social, booking</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px; font-size: 0.82em;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span style="color: var(--text-muted);">PDF reports for client presentations</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px; font-size: 0.82em;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span style="color: var(--text-muted);">Click-to-WhatsApp instant contact</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- SLIDE 6: MARKET OPPORTUNITY -->
+      <!-- ============================================================ -->
+      <section data-background-gradient="radial-gradient(ellipse at 70% 40%, rgba(59,130,246,0.08) 0%, transparent 50%), #050a18">
+        <div style="height: 100%; display: flex; flex-direction: column; justify-content: center;">
+          <span class="badge badge-blue" style="margin-bottom: 16px;">MARKET OPPORTUNITY</span>
+          <h2 style="margin-bottom: 36px;">A massive underserved <span class="gradient-text">market</span></h2>
+
+          <div class="grid-2" style="gap: 32px;">
+            <!-- Left: TAM SAM SOM -->
+            <div style="display: flex; flex-direction: column; gap: 20px;">
+              <!-- TAM -->
+              <div class="card" style="padding: 24px; border-left: 3px solid var(--blue);">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <div>
+                    <div style="font-size: 0.7em; color: var(--blue); font-weight: 600; letter-spacing: 0.1em; margin-bottom: 4px;">TAM - TOTAL ADDRESSABLE MARKET</div>
+                    <p class="text-sm" style="margin: 0;">Global freelancers and agencies selling digital services to local businesses</p>
+                  </div>
+                  <div style="font-size: 2em; font-weight: 800; color: var(--blue); white-space: nowrap; margin-left: 16px;">$12B</div>
+                </div>
+              </div>
+
+              <!-- SAM -->
+              <div class="card" style="padding: 24px; border-left: 3px solid var(--purple);">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <div>
+                    <div style="font-size: 0.7em; color: var(--purple); font-weight: 600; letter-spacing: 0.1em; margin-bottom: 4px;">SAM - SERVICEABLE AVAILABLE MARKET</div>
+                    <p class="text-sm" style="margin: 0;">LATAM freelancers and small agencies needing lead generation tools</p>
+                  </div>
+                  <div style="font-size: 2em; font-weight: 800; color: var(--purple); white-space: nowrap; margin-left: 16px;">$850M</div>
+                </div>
+              </div>
+
+              <!-- SOM -->
+              <div class="card" style="padding: 24px; border-left: 3px solid var(--green);">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <div>
+                    <div style="font-size: 0.7em; color: var(--green); font-weight: 600; letter-spacing: 0.1em; margin-bottom: 4px;">SOM - SERVICEABLE OBTAINABLE MARKET</div>
+                    <p class="text-sm" style="margin: 0;">Spanish-speaking freelancers in Bolivia, Peru, Argentina, Chile, Colombia, Mexico</p>
+                  </div>
+                  <div style="font-size: 2em; font-weight: 800; color: var(--green); white-space: nowrap; margin-left: 16px;">$24M</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: Key stats -->
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+              <div class="card card-glow-blue" style="padding: 24px; text-align: center;">
+                <div style="font-size: 2.6em; font-weight: 800; color: var(--blue); line-height: 1;">67%</div>
+                <p class="text-sm mt-1" style="margin: 8px 0 0;">of small businesses in LATAM<br>have <strong style="color: var(--text);">no digital presence</strong></p>
+              </div>
+
+              <div class="grid-2" style="gap: 16px;">
+                <div class="card" style="padding: 20px; text-align: center;">
+                  <div style="font-size: 1.8em; font-weight: 800; color: var(--purple); line-height: 1;">1.5M+</div>
+                  <p class="text-sm mt-1" style="margin: 6px 0 0;">Freelancers in LATAM selling digital services</p>
+                </div>
+                <div class="card" style="padding: 20px; text-align: center;">
+                  <div style="font-size: 1.8em; font-weight: 800; color: var(--green); line-height: 1;">32M+</div>
+                  <p class="text-sm mt-1" style="margin: 6px 0 0;">Small businesses listed on Google Maps in LATAM</p>
+                </div>
+              </div>
+
+              <div class="card" style="padding: 20px;">
+                <div style="font-size: 0.7em; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px;">Target Countries (Phase 1)</div>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                  <span style="padding: 4px 12px; background: rgba(59,130,246,0.1); border-radius: 6px; font-size: 0.78em; color: var(--blue-light);">Bolivia</span>
+                  <span style="padding: 4px 12px; background: rgba(139,92,246,0.08); border-radius: 6px; font-size: 0.78em; color: var(--purple-light);">Peru</span>
+                  <span style="padding: 4px 12px; background: rgba(139,92,246,0.08); border-radius: 6px; font-size: 0.78em; color: var(--purple-light);">Argentina</span>
+                  <span style="padding: 4px 12px; background: rgba(139,92,246,0.08); border-radius: 6px; font-size: 0.78em; color: var(--purple-light);">Chile</span>
+                  <span style="padding: 4px 12px; background: rgba(139,92,246,0.08); border-radius: 6px; font-size: 0.78em; color: var(--purple-light);">Colombia</span>
+                  <span style="padding: 4px 12px; background: rgba(139,92,246,0.08); border-radius: 6px; font-size: 0.78em; color: var(--purple-light);">Mexico</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- SLIDE 7: BUSINESS MODEL / PRICING -->
+      <!-- ============================================================ -->
+      <section data-background-gradient="radial-gradient(ellipse at 50% 60%, rgba(59,130,246,0.06) 0%, transparent 50%), #050a18">
+        <div style="height: 100%; display: flex; flex-direction: column; justify-content: center;">
+          <span class="badge badge-green" style="margin-bottom: 16px;">BUSINESS MODEL</span>
+          <h2 style="margin-bottom: 36px;">Simple SaaS pricing with <span class="gradient-text-green">strong margins</span></h2>
+
+          <div class="grid-3" style="gap: 24px; margin-bottom: 32px;">
+            <!-- Free -->
+            <div class="pricing-card">
+              <div style="font-size: 0.75em; color: var(--text-dim); font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px;">Free</div>
+              <div class="pricing-price text-muted">$0</div>
+              <ul class="pricing-features">
+                <li>1 scan per month</li>
+                <li>25 results per scan</li>
+                <li>Basic analysis</li>
+                <li>Map visualization</li>
+              </ul>
+              <div style="margin-top: 16px; padding: 8px; background: rgba(255,255,255,0.03); border-radius: 8px; text-align: center;">
+                <span style="font-size: 0.7em; color: var(--text-dim);">Lead generation funnel</span>
+              </div>
+            </div>
+
+            <!-- Pro (Featured) -->
+            <div class="pricing-card featured">
+              <div style="font-size: 0.75em; color: var(--blue); font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px;">Pro</div>
+              <div class="pricing-price text-blue">$49<span class="pricing-period">/month</span></div>
+              <ul class="pricing-features">
+                <li>Unlimited scans</li>
+                <li>Unlimited results</li>
+                <li>Full 12-factor analysis</li>
+                <li>CSV/XLSX exports</li>
+                <li>PDF business reports</li>
+                <li>Click-to-WhatsApp</li>
+                <li>Email outreach templates</li>
+              </ul>
+              <div style="margin-top: 16px; padding: 8px; background: rgba(59,130,246,0.08); border-radius: 8px; text-align: center;">
+                <span style="font-size: 0.7em; color: var(--blue);">54% gross margin per user</span>
+              </div>
+            </div>
+
+            <!-- Agency -->
+            <div class="pricing-card">
+              <div style="font-size: 0.75em; color: var(--purple); font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px;">Agency</div>
+              <div class="pricing-price text-purple">$99<span class="pricing-period">/month</span></div>
+              <ul class="pricing-features">
+                <li>Everything in Pro</li>
+                <li>White-label PDF reports</li>
+                <li>API access</li>
+                <li>Team collaboration</li>
+                <li>Priority support</li>
+                <li>Custom branding</li>
+              </ul>
+              <div style="margin-top: 16px; padding: 8px; background: rgba(139,92,246,0.08); border-radius: 8px; text-align: center;">
+                <span style="font-size: 0.7em; color: var(--purple);">77% gross margin per user</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Unit economics -->
+          <div class="card" style="padding: 20px 28px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+              <div style="display: flex; align-items: center; gap: 24px;">
+                <div>
+                  <div style="font-size: 0.65em; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em;">API Cost / Scan</div>
+                  <div style="font-size: 1.3em; font-weight: 700; color: var(--text);">~$1.12</div>
+                </div>
+                <div style="width: 1px; height: 36px; background: var(--border);"></div>
+                <div>
+                  <div style="font-size: 0.65em; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em;">Pro: 20 Scans/Mo</div>
+                  <div style="font-size: 1.3em; font-weight: 700; color: var(--orange);">$22.40 cost</div>
+                </div>
+                <div style="width: 1px; height: 36px; background: var(--border);"></div>
+                <div>
+                  <div style="font-size: 0.65em; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em;">Pro Revenue</div>
+                  <div style="font-size: 1.3em; font-weight: 700; color: var(--blue);">$49.00</div>
+                </div>
+                <div style="width: 1px; height: 36px; background: var(--border);"></div>
+                <div>
+                  <div style="font-size: 0.65em; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em;">Net Margin / User</div>
+                  <div style="font-size: 1.3em; font-weight: 700; color: var(--green);">$26.60</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- SLIDE 8: REVENUE PROJECTIONS -->
+      <!-- ============================================================ -->
+      <section data-background-gradient="radial-gradient(ellipse at 60% 40%, rgba(34,197,94,0.06) 0%, transparent 50%), #050a18">
+        <div style="height: 100%; display: flex; flex-direction: column; justify-content: center;">
+          <span class="badge badge-green" style="margin-bottom: 16px;">FINANCIALS</span>
+          <h2 style="margin-bottom: 36px;">Path to <span class="gradient-text-green">$100K ARR</span> in 12 months</h2>
+
+          <div class="grid-2" style="gap: 28px;">
+            <!-- Left: Revenue chart -->
+            <div class="card card-glow-green" style="padding: 28px;">
+              <div style="font-size: 0.7em; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 20px;">Monthly Recurring Revenue Projection</div>
+              <div class="revenue-chart">
+                <div class="revenue-bar-wrapper">
+                  <div class="revenue-bar-value">$490</div>
+                  <div class="revenue-bar" style="height: 5%; background: linear-gradient(180deg, var(--blue), rgba(59,130,246,0.3));"></div>
+                  <div class="revenue-bar-label">M1</div>
+                </div>
+                <div class="revenue-bar-wrapper">
+                  <div class="revenue-bar-value">$980</div>
+                  <div class="revenue-bar" style="height: 10%; background: linear-gradient(180deg, var(--blue), rgba(59,130,246,0.3));"></div>
+                  <div class="revenue-bar-label">M2</div>
+                </div>
+                <div class="revenue-bar-wrapper">
+                  <div class="revenue-bar-value">$1.9K</div>
+                  <div class="revenue-bar" style="height: 18%; background: linear-gradient(180deg, var(--blue), rgba(59,130,246,0.3));"></div>
+                  <div class="revenue-bar-label">M3</div>
+                </div>
+                <div class="revenue-bar-wrapper">
+                  <div class="revenue-bar-value">$2.9K</div>
+                  <div class="revenue-bar" style="height: 28%; background: linear-gradient(180deg, var(--purple), rgba(139,92,246,0.3));"></div>
+                  <div class="revenue-bar-label">M4</div>
+                </div>
+                <div class="revenue-bar-wrapper">
+                  <div class="revenue-bar-value">$3.9K</div>
+                  <div class="revenue-bar" style="height: 38%; background: linear-gradient(180deg, var(--purple), rgba(139,92,246,0.3));"></div>
+                  <div class="revenue-bar-label">M5</div>
+                </div>
+                <div class="revenue-bar-wrapper">
+                  <div class="revenue-bar-value">$4.9K</div>
+                  <div class="revenue-bar" style="height: 48%; background: linear-gradient(180deg, var(--purple), rgba(139,92,246,0.3));"></div>
+                  <div class="revenue-bar-label">M6</div>
+                </div>
+                <div class="revenue-bar-wrapper">
+                  <div class="revenue-bar-value">$5.4K</div>
+                  <div class="revenue-bar" style="height: 55%; background: linear-gradient(180deg, var(--green), rgba(34,197,94,0.3));"></div>
+                  <div class="revenue-bar-label">M7</div>
+                </div>
+                <div class="revenue-bar-wrapper">
+                  <div class="revenue-bar-value">$5.9K</div>
+                  <div class="revenue-bar" style="height: 60%; background: linear-gradient(180deg, var(--green), rgba(34,197,94,0.3));"></div>
+                  <div class="revenue-bar-label">M8</div>
+                </div>
+                <div class="revenue-bar-wrapper">
+                  <div class="revenue-bar-value">$6.4K</div>
+                  <div class="revenue-bar" style="height: 65%; background: linear-gradient(180deg, var(--green), rgba(34,197,94,0.3));"></div>
+                  <div class="revenue-bar-label">M9</div>
+                </div>
+                <div class="revenue-bar-wrapper">
+                  <div class="revenue-bar-value">$7.2K</div>
+                  <div class="revenue-bar" style="height: 72%; background: linear-gradient(180deg, var(--green), rgba(34,197,94,0.3));"></div>
+                  <div class="revenue-bar-label">M10</div>
+                </div>
+                <div class="revenue-bar-wrapper">
+                  <div class="revenue-bar-value">$8.1K</div>
+                  <div class="revenue-bar" style="height: 82%; background: linear-gradient(180deg, var(--green), rgba(34,197,94,0.3));"></div>
+                  <div class="revenue-bar-label">M11</div>
+                </div>
+                <div class="revenue-bar-wrapper">
+                  <div class="revenue-bar-value" style="color: var(--green); font-weight: 700;">$8.5K</div>
+                  <div class="revenue-bar" style="height: 90%; background: linear-gradient(180deg, var(--green), rgba(34,197,94,0.4));"></div>
+                  <div class="revenue-bar-label">M12</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: Key metrics -->
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+              <div class="card" style="padding: 24px; text-align: center;">
+                <div style="font-size: 0.7em; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px;">6-Month Target</div>
+                <div style="font-size: 2.8em; font-weight: 800; color: var(--blue); line-height: 1;">$4,900</div>
+                <div style="font-size: 0.85em; color: var(--text-muted); margin-top: 4px;">MRR (100 Pro Users)</div>
+              </div>
+              <div class="card" style="padding: 24px; text-align: center;">
+                <div style="font-size: 0.7em; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px;">12-Month Target</div>
+                <div style="font-size: 2.8em; font-weight: 800; color: var(--green); line-height: 1;">$102K</div>
+                <div style="font-size: 0.85em; color: var(--text-muted); margin-top: 4px;">ARR (150+ paid users)</div>
+              </div>
+
+              <div class="card" style="padding: 20px;">
+                <div style="font-size: 0.7em; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px;">Key Assumptions</div>
+                <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.82em;">
+                  <div style="display: flex; justify-content: space-between;">
+                    <span style="color: var(--text-muted);">Free-to-Pro conversion</span>
+                    <span style="color: var(--text); font-weight: 600;">8%</span>
+                  </div>
+                  <div style="display: flex; justify-content: space-between;">
+                    <span style="color: var(--text-muted);">Pro-to-Agency upsell</span>
+                    <span style="color: var(--text); font-weight: 600;">15%</span>
+                  </div>
+                  <div style="display: flex; justify-content: space-between;">
+                    <span style="color: var(--text-muted);">Monthly churn</span>
+                    <span style="color: var(--text); font-weight: 600;">5%</span>
+                  </div>
+                  <div style="display: flex; justify-content: space-between;">
+                    <span style="color: var(--text-muted);">Avg. scans per Pro user</span>
+                    <span style="color: var(--text); font-weight: 600;">12/month</span>
+                  </div>
+                  <div style="display: flex; justify-content: space-between;">
+                    <span style="color: var(--text-muted);">Blended gross margin</span>
+                    <span style="color: var(--green); font-weight: 600;">62%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- SLIDE 9: COMPETITIVE LANDSCAPE -->
+      <!-- ============================================================ -->
+      <section data-background-gradient="radial-gradient(ellipse at 40% 50%, rgba(139,92,246,0.06) 0%, transparent 50%), #050a18">
+        <div style="height: 100%; display: flex; flex-direction: column; justify-content: center;">
+          <span class="badge badge-purple" style="margin-bottom: 16px;">COMPETITION</span>
+          <h2 style="margin-bottom: 36px;">We own the <span class="gradient-text">LATAM niche</span></h2>
+
+          <div class="grid-2" style="gap: 32px;">
+            <!-- Left: 2x2 matrix -->
+            <div class="card card-glow-purple" style="padding: 28px;">
+              <div class="matrix-wrapper">
+                <div class="matrix-bg"></div>
+                <!-- Axis labels -->
+                <div class="matrix-label" style="bottom: 0; left: 50%; transform: translateX(-50%);">LATAM Focus  ----></div>
+                <div class="matrix-label" style="left: -4px; top: 50%; transform: rotate(-90deg) translateX(-50%); transform-origin: 0 0;">Lead Quality  ----></div>
+
+                <!-- Quadrant labels -->
+                <div style="position: absolute; top: 40px; right: 40px; font-size: 0.55em; color: rgba(34,197,94,0.4); font-weight: 600;">SWEET SPOT</div>
+
+                <!-- Dots -->
+                <!-- MapKo: top-right -->
+                <div class="matrix-dot" style="top: 50px; right: 50px; background: linear-gradient(135deg, var(--blue), var(--purple)); color: white; width: 56px; height: 56px; box-shadow: 0 0 30px rgba(59,130,246,0.4); font-size: 0.65em;">
+                  MapKo
+                </div>
+
+                <!-- D7 Lead Finder: middle-left -->
+                <div class="matrix-dot" style="top: 120px; left: 80px; background: rgba(255,255,255,0.08); color: var(--text-dim); border: 1px solid rgba(255,255,255,0.1);">
+                  D7
+                </div>
+
+                <!-- LeadScrape: lower-left -->
+                <div class="matrix-dot" style="top: 190px; left: 100px; background: rgba(255,255,255,0.08); color: var(--text-dim); border: 1px solid rgba(255,255,255,0.1);">
+                  Lead<br>Scrape
+                </div>
+
+                <!-- BrightLocal: middle area -->
+                <div class="matrix-dot" style="top: 100px; left: 180px; background: rgba(255,255,255,0.08); color: var(--text-dim); border: 1px solid rgba(255,255,255,0.1);">
+                  Bright<br>Local
+                </div>
+
+                <!-- Manual: bottom-left -->
+                <div class="matrix-dot" style="bottom: 60px; left: 60px; background: rgba(239,68,68,0.15); color: var(--text-dim); border: 1px solid rgba(239,68,68,0.2);">
+                  Manual
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: Advantages -->
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+              <div class="card" style="padding: 20px; display: flex; gap: 16px; align-items: start;">
+                <div class="icon-circle icon-blue" style="width: 42px; height: 42px; border-radius: 12px; font-size: 18px;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
+                </div>
+                <div>
+                  <h3 style="font-size: 0.95em; margin-bottom: 4px;">LATAM-First Approach</h3>
+                  <p class="text-sm" style="margin: 0;">Built for Spanish-speaking markets. WhatsApp integration, local payment options, LATAM business patterns.</p>
+                </div>
+              </div>
+
+              <div class="card" style="padding: 20px; display: flex; gap: 16px; align-items: start;">
+                <div class="icon-circle icon-purple" style="width: 42px; height: 42px; border-radius: 12px; font-size: 18px;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                </div>
+                <div>
+                  <h3 style="font-size: 0.95em; margin-bottom: 4px;">Opportunity Scoring</h3>
+                  <p class="text-sm" style="margin: 0;">12-factor analysis algorithm specifically designed for selling digital services. Not just lead scraping -- intelligent qualification.</p>
+                </div>
+              </div>
+
+              <div class="card" style="padding: 20px; display: flex; gap: 16px; align-items: start;">
+                <div class="icon-circle icon-green" style="width: 42px; height: 42px; border-radius: 12px; font-size: 18px;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                </div>
+                <div>
+                  <h3 style="font-size: 0.95em; margin-bottom: 4px;">5x Cheaper</h3>
+                  <p class="text-sm" style="margin: 0;">$49/mo vs $200+/mo for competitors. Accessible pricing for LATAM freelancers and small agencies.</p>
+                </div>
+              </div>
+
+              <div class="card" style="padding: 20px; display: flex; gap: 16px; align-items: start;">
+                <div class="icon-circle icon-orange" style="width: 42px; height: 42px; border-radius: 12px; font-size: 18px;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                </div>
+                <div>
+                  <h3 style="font-size: 0.95em; margin-bottom: 4px;">Built-in Outreach</h3>
+                  <p class="text-sm" style="margin: 0;">WhatsApp click-to-chat, email templates, and PDF reports. Complete prospecting-to-outreach pipeline in one tool.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- SLIDE 10: TRACTION & ROADMAP -->
+      <!-- ============================================================ -->
+      <section data-background-gradient="radial-gradient(ellipse at 50% 30%, rgba(34,197,94,0.06) 0%, transparent 50%), #050a18">
+        <div style="height: 100%; display: flex; flex-direction: column; justify-content: center;">
+          <span class="badge badge-green" style="margin-bottom: 16px;">TRACTION & ROADMAP</span>
+          <h2 style="margin-bottom: 32px;">Built, tested, <span class="gradient-text-green">ready to scale</span></h2>
+
+          <!-- Current traction -->
+          <div class="grid-4" style="gap: 16px; margin-bottom: 32px;">
+            <div class="card card-glow-green" style="padding: 20px; text-align: center;">
+              <div style="font-size: 2em; font-weight: 800; color: var(--green); line-height: 1;">MVP</div>
+              <div style="font-size: 0.72em; color: var(--text-dim); margin-top: 6px;">Fully Built</div>
+            </div>
+            <div class="card card-glow-blue" style="padding: 20px; text-align: center;">
+              <div style="font-size: 2em; font-weight: 800; color: var(--blue); line-height: 1;">60+</div>
+              <div style="font-size: 0.72em; color: var(--text-dim); margin-top: 6px;">Businesses / Scan</div>
+            </div>
+            <div class="card card-glow-purple" style="padding: 20px; text-align: center;">
+              <div style="font-size: 2em; font-weight: 800; color: var(--purple); line-height: 1;">18</div>
+              <div style="font-size: 0.72em; color: var(--text-dim); margin-top: 6px;">Business Categories</div>
+            </div>
+            <div class="card" style="padding: 20px; text-align: center;">
+              <div style="font-size: 2em; font-weight: 800; color: var(--orange); line-height: 1;">12</div>
+              <div style="font-size: 0.72em; color: var(--text-dim); margin-top: 6px;">Analysis Factors</div>
+            </div>
+          </div>
+
+          <!-- Tech stack badge -->
+          <div class="card" style="padding: 16px 24px; margin-bottom: 32px;">
+            <div style="display: flex; align-items: center; gap: 20px; justify-content: center; flex-wrap: wrap;">
+              <span style="font-size: 0.75em; color: var(--text-dim); font-weight: 600;">TECH STACK:</span>
+              <span style="font-size: 0.78em; padding: 4px 12px; background: rgba(59,130,246,0.08); border-radius: 6px; color: var(--blue-light);">Next.js 15</span>
+              <span style="font-size: 0.78em; padding: 4px 12px; background: rgba(59,130,246,0.08); border-radius: 6px; color: var(--blue-light);">TypeScript</span>
+              <span style="font-size: 0.78em; padding: 4px 12px; background: rgba(139,92,246,0.08); border-radius: 6px; color: var(--purple-light);">Supabase</span>
+              <span style="font-size: 0.78em; padding: 4px 12px; background: rgba(34,197,94,0.08); border-radius: 6px; color: #4ade80;">Google Places API</span>
+              <span style="font-size: 0.78em; padding: 4px 12px; background: rgba(139,92,246,0.08); border-radius: 6px; color: var(--purple-light);">Stripe</span>
+              <span style="font-size: 0.78em; padding: 4px 12px; background: rgba(59,130,246,0.08); border-radius: 6px; color: var(--blue-light);">Tailwind CSS</span>
+              <span style="font-size: 0.78em; padding: 4px 12px; background: rgba(59,130,246,0.08); border-radius: 6px; color: var(--blue-light);">Vercel</span>
+            </div>
+          </div>
+
+          <!-- Roadmap timeline -->
+          <div style="position: relative;">
+            <div style="font-size: 0.7em; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 20px;">Roadmap</div>
+            <div class="timeline">
+              <div class="timeline-item">
+                <div class="timeline-dot" style="background: var(--green); color: white;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div style="font-size: 0.82em; font-weight: 600; color: var(--text); margin-bottom: 4px;">Q1 2026</div>
+                <div style="font-size: 0.7em; color: var(--text-dim);">MVP Launch<br>Bolivia market<br>Core scanning engine</div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot" style="background: var(--blue); color: white;">2</div>
+                <div style="font-size: 0.82em; font-weight: 600; color: var(--text); margin-bottom: 4px;">Q2 2026</div>
+                <div style="font-size: 0.7em; color: var(--text-dim);">Stripe payments<br>Pro/Agency tiers<br>First 50 users</div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot" style="background: var(--purple); color: white;">3</div>
+                <div style="font-size: 0.82em; font-weight: 600; color: var(--text); margin-bottom: 4px;">Q3 2026</div>
+                <div style="font-size: 0.7em; color: var(--text-dim);">Peru + Argentina<br>API access<br>White-label reports</div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot" style="background: var(--orange); color: white;">4</div>
+                <div style="font-size: 0.82em; font-weight: 600; color: var(--text); margin-bottom: 4px;">Q4 2026</div>
+                <div style="font-size: 0.7em; color: var(--text-dim);">Chile + Colombia<br>CRM integrations<br>$100K ARR</div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot" style="background: linear-gradient(135deg, var(--blue), var(--purple)); color: white;">5</div>
+                <div style="font-size: 0.82em; font-weight: 600; color: var(--text); margin-bottom: 4px;">2027</div>
+                <div style="font-size: 0.7em; color: var(--text-dim);">Mexico + Brazil<br>AI outreach assistant<br>Series A readiness</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- SLIDE 11: TEAM -->
+      <!-- ============================================================ -->
+      <section data-background-gradient="radial-gradient(ellipse at 50% 50%, rgba(59,130,246,0.06) 0%, transparent 50%), #050a18">
+        <div style="height: 100%; display: flex; flex-direction: column; justify-content: center;">
+          <span class="badge badge-blue" style="margin-bottom: 16px;">THE TEAM</span>
+          <h2 style="margin-bottom: 12px;">Built by people who <span class="gradient-text">understand the problem</span></h2>
+          <p style="max-width: 600px; margin-bottom: 40px;">We've lived the pain of manual prospecting. Now we're solving it.</p>
+
+          <div class="grid-3" style="gap: 24px; margin-bottom: 40px;">
+            <!-- Founder 1 -->
+            <div class="card card-glow-blue" style="padding: 28px; text-align: center;">
+              <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, var(--blue), var(--purple)); margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; font-size: 2em;">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              </div>
+              <h3 style="font-size: 1.05em; margin-bottom: 4px;">Founder / CEO</h3>
+              <div style="font-size: 0.78em; color: var(--blue); font-weight: 500; margin-bottom: 12px;">Product & Strategy</div>
+              <p class="text-sm" style="margin: 0;">Full-stack developer with experience in SaaS, digital marketing, and the LATAM startup ecosystem.</p>
+            </div>
+
+            <!-- Founder 2 -->
+            <div class="card card-glow-purple" style="padding: 28px; text-align: center;">
+              <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, var(--purple), #ec4899); margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; font-size: 2em;">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+              </div>
+              <h3 style="font-size: 1.05em; margin-bottom: 4px;">CTO</h3>
+              <div style="font-size: 0.78em; color: var(--purple); font-weight: 500; margin-bottom: 12px;">Engineering & Architecture</div>
+              <p class="text-sm" style="margin: 0;">Backend and infrastructure expert. Experienced with APIs, data pipelines, and scalable cloud architecture.</p>
+            </div>
+
+            <!-- Founder 3 -->
+            <div class="card card-glow-green" style="padding: 28px; text-align: center;">
+              <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, var(--green), var(--blue)); margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; font-size: 2em;">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              </div>
+              <h3 style="font-size: 1.05em; margin-bottom: 4px;">Head of Growth</h3>
+              <div style="font-size: 0.78em; color: var(--green); font-weight: 500; margin-bottom: 12px;">Sales & Marketing</div>
+              <p class="text-sm" style="margin: 0;">Digital marketing veteran. Deep network of freelancers and agencies across LATAM. Community builder.</p>
+            </div>
+          </div>
+
+          <!-- Advisory / Credibility -->
+          <div class="card" style="padding: 20px 28px;">
+            <div style="display: flex; align-items: center; gap: 16px; justify-content: center; flex-wrap: wrap;">
+              <span style="font-size: 0.75em; color: var(--text-dim); font-weight: 600;">WHY US:</span>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                <span style="font-size: 0.82em; color: var(--text-muted);">We've been freelancers ourselves</span>
+              </div>
+              <div style="width: 1px; height: 20px; background: var(--border);"></div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                <span style="font-size: 0.82em; color: var(--text-muted);">Based in LATAM (Bolivia)</span>
+              </div>
+              <div style="width: 1px; height: 20px; background: var(--border);"></div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                <span style="font-size: 0.82em; color: var(--text-muted);">Built the MVP in-house, no outsourcing</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- SLIDE 12: CALL TO ACTION -->
+      <!-- ============================================================ -->
+      <section data-background-gradient="radial-gradient(ellipse at 50% 40%, rgba(59,130,246,0.1) 0%, transparent 50%), radial-gradient(ellipse at 30% 80%, rgba(139,92,246,0.08) 0%, transparent 50%), #050a18">
+        <div style="height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; position: relative;">
+          <!-- Background orbs -->
+          <div class="bg-orb animate-pulse-glow" style="width: 500px; height: 500px; background: var(--blue); top: -150px; right: -100px;"></div>
+          <div class="bg-orb animate-pulse-glow" style="width: 400px; height: 400px; background: var(--purple); bottom: -100px; left: -50px; animation-delay: 2s;"></div>
+
+          <div style="position: relative; z-index: 2; max-width: 700px;">
+            <!-- Logo -->
+            <div style="display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 24px;">
+              <div style="width: 60px; height: 60px; background: linear-gradient(135deg, var(--blue), var(--purple)); border-radius: 18px; display: flex; align-items: center; justify-content: center; box-shadow: 0 12px 40px rgba(59, 130, 246, 0.3);">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+              </div>
+              <div style="font-size: 2.6em; font-weight: 800; letter-spacing: -0.04em;">
+                Map<span style="color: var(--blue);">Ko</span>
+              </div>
+            </div>
+
+            <h2 style="font-size: 1.8em; margin-bottom: 16px; text-align: center; line-height: 1.3;">
+              Every business on the map is a<br>
+              <span class="gradient-text" style="font-size: 1.15em;">potential client.</span>
+            </h2>
+
+            <p style="font-size: 1em; color: var(--text-muted); margin-bottom: 40px; text-align: center; line-height: 1.6;">
+              We're building the intelligence layer that connects digital service<br>
+              providers with the millions of businesses that need them.
+            </p>
+
+            <!-- Key value props recap -->
+            <div style="display: flex; justify-content: center; gap: 32px; margin-bottom: 48px;">
+              <div>
+                <div style="font-size: 1.8em; font-weight: 800; color: var(--blue);">67%</div>
+                <div style="font-size: 0.72em; color: var(--text-dim);">of LATAM businesses<br>have no digital presence</div>
+              </div>
+              <div style="width: 1px; background: var(--border);"></div>
+              <div>
+                <div style="font-size: 1.8em; font-weight: 800; color: var(--purple);">32M+</div>
+                <div style="font-size: 0.72em; color: var(--text-dim);">businesses on<br>Google Maps in LATAM</div>
+              </div>
+              <div style="width: 1px; background: var(--border);"></div>
+              <div>
+                <div style="font-size: 1.8em; font-weight: 800; color: var(--green);">$24M</div>
+                <div style="font-size: 0.72em; color: var(--text-dim);">obtainable market<br>in our first 6 countries</div>
+              </div>
+            </div>
+
+            <!-- CTA -->
+            <div style="display: inline-flex; align-items: center; gap: 12px; padding: 16px 40px; background: linear-gradient(135deg, var(--blue), var(--purple)); border-radius: 14px; box-shadow: 0 8px 32px rgba(59,130,246,0.3); margin-bottom: 32px;">
+              <span style="font-size: 1.1em; font-weight: 700; color: white;">Let's Talk</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 6px; font-size: 0.85em; color: var(--text-dim);">
+              <div>hello@mapko.app</div>
+              <div style="color: var(--text-muted);">mapko.app</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- Reveal.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.js"></script>
+  <script>
+    Reveal.initialize({
+      // Presentation settings
+      hash: true,
+      history: true,
+      center: false,
+      width: 1280,
+      height: 720,
+      margin: 0,
+      minScale: 0.2,
+      maxScale: 2.0,
+
+      // Transition
+      transition: 'slide',
+      transitionSpeed: 'default',
+      backgroundTransition: 'fade',
+
+      // Controls
+      controls: true,
+      controlsLayout: 'bottom-right',
+      controlsTutorial: false,
+      progress: true,
+      slideNumber: 'c/t',
+
+      // Keyboard navigation
+      keyboard: true,
+      overview: true,
+
+      // Auto-slide (disabled -- manual control)
+      autoSlide: 0,
+    });
+  </script>
+</body>
+</html>

@@ -37,6 +37,7 @@ import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { Spinner } from "@/components/ui/spinner";
 import { cn, getScoreColor, getScoreLabel } from "@/lib/utils";
+import { isMobileNumber, formatPhoneForWhatsApp } from "@/lib/utils/phone-helper";
 import dynamic from "next/dynamic";
 import type { Scan, BusinessWithAnalysis, ScanStatus } from "@/types";
 
@@ -774,9 +775,9 @@ export default function ScanDetailPage() {
                           </td>
                           <td className="px-4 py-3 text-right">
                             <div className="flex items-center justify-end gap-1">
-                              {biz.phone && (
+                              {biz.phone && isMobileNumber(biz.phone) && (
                                 <a
-                                  href={`https://wa.me/${biz.phone.replace(/[\s\-()]/g, "")}?text=${encodeURIComponent("Hi! I found your business on Google Maps and I'd like to offer you digital services to improve your online presence. Can we talk?")}`}
+                                  href={`https://wa.me/${formatPhoneForWhatsApp(biz.phone)}?text=${encodeURIComponent("Hola! Encontré su negocio en Google Maps y me gustaría ofrecerle servicios digitales para mejorar su presencia online. ¿Podemos hablar?")}`}
                                   target="_blank"
                                   rel="noopener noreferrer"
                                 >
@@ -784,9 +785,21 @@ export default function ScanDetailPage() {
                                     variant="ghost"
                                     size="sm"
                                     className="h-8 w-8 p-0 text-[#25D366] hover:text-[#1da851] hover:bg-[#25D366]/10"
-                                    title="Contact via WhatsApp"
+                                    title="Contactar via WhatsApp"
                                   >
                                     <MessageCircle className="h-4 w-4" />
+                                  </Button>
+                                </a>
+                              )}
+                              {biz.phone && !isMobileNumber(biz.phone) && (
+                                <a href={`tel:${biz.phone.replace(/[\s\-()]/g, "")}`}>
+                                  <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground"
+                                    title={`Llamar: ${biz.phone} (teléfono fijo)`}
+                                  >
+                                    <Phone className="h-4 w-4" />
                                   </Button>
                                 </a>
                               )}

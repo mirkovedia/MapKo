@@ -120,7 +120,14 @@ export async function POST(req: NextRequest) {
       .single();
 
     const maxResults = profile?.plan === "free" ? 25 : places.length;
-    const limitedPlaces = places.slice(0, maxResults) as PlaceResult[];
+
+    // Filter out permanently closed / non-operational businesses
+    const activePlaces = (places as PlaceResult[]).filter((place) => {
+      const status = place.businessStatus || "OPERATIONAL";
+      return status !== "CLOSED_PERMANENTLY" && status !== "CLOSED_TEMPORARILY";
+    });
+
+    const limitedPlaces = activePlaces.slice(0, maxResults);
 
     // Insert businesses into DB
     const businessRows = limitedPlaces.map((place) => ({

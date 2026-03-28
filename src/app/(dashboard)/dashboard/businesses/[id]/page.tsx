@@ -29,6 +29,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { cn, getScoreColor, getScoreLabel } from "@/lib/utils";
+import { isMobileNumber, formatPhoneForWhatsApp } from "@/lib/utils/phone-helper";
 import type { BusinessWithAnalysis } from "@/types";
 
 function BoolIndicator({ value, label }: { value: boolean; label: string }) {
@@ -218,9 +219,9 @@ export default function BusinessDetailPage() {
                     </Button>
                   </a>
                 )}
-                {business.phone && (
+                {business.phone && isMobileNumber(business.phone) && (
                   <a
-                    href={`https://wa.me/${business.phone.replace(/[\s\-()]/g, "")}?text=${encodeURIComponent("Hi! I found your business on Google Maps and I'd like to offer you digital services to improve your online presence. Can we talk?")}`}
+                    href={`https://wa.me/${formatPhoneForWhatsApp(business.phone)}?text=${encodeURIComponent("Hola! Encontré su negocio en Google Maps y me gustaría ofrecerle servicios digitales para mejorar su presencia online. ¿Podemos hablar?")}`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -229,7 +230,15 @@ export default function BusinessDetailPage() {
                       className="bg-[#25D366] hover:bg-[#1da851] text-white border-0"
                     >
                       <MessageCircle className="h-4 w-4" />
-                      Contact via WhatsApp
+                      WhatsApp
+                    </Button>
+                  </a>
+                )}
+                {business.phone && !isMobileNumber(business.phone) && (
+                  <a href={`tel:${business.phone.replace(/[\s\-()]/g, "")}`}>
+                    <Button size="sm" variant="outline">
+                      <Globe className="h-4 w-4" />
+                      Llamar ({business.phone})
                     </Button>
                   </a>
                 )}

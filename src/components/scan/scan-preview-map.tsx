@@ -3,7 +3,6 @@
 import { useEffect, useRef, useCallback } from "react";
 import { APIProvider, Map, useMap } from "@vis.gl/react-google-maps";
 
-// Dark map style — matches scan-map.tsx dashboard aesthetic
 const darkMapStyle = [
   { elementType: "geometry", stylers: [{ color: "#1a1a2e" }] },
   { elementType: "labels.text.stroke", stylers: [{ color: "#1a1a2e" }] },
@@ -67,15 +66,17 @@ function getZoomForRadius(radiusKm: number): number {
 interface RadiusCircleProps {
   center: { lat: number; lng: number };
   radiusKm: number;
+  onRadiusChange?: (newRadiusKm: number) => void;
+  onCenterChange?: (newCenter: { lat: number; lng: number }) => void;
 }
 
 /**
- * Draws a circle overlay on the map showing the search radius.
- * Uses the Google Maps Circle class directly via the useMap hook.
+ * Interactive circle overlay — drag the edge to resize, drag center to move.
  */
-function RadiusCircle({ center, radiusKm }: RadiusCircleProps) {
+function RadiusCircle({ center, radiusKm, onRadiusChange, onCenterChange }: RadiusCircleProps) {
   const map = useMap();
   const circleRef = useRef<google.maps.Circle | null>(null);
+  const isUserEditingRef = useRef(false);
 
   const updateCircle = useCallback(() => {
     if (!map) return;
@@ -86,29 +87,58 @@ function RadiusCircle({ center, radiusKm }: RadiusCircleProps) {
         center,
         radius: radiusKm * 1000,
         fillColor: "#3b82f6",
-        fillOpacity: 0.1,
+        fillOpacity: 0.12,
         strokeColor: "#3b82f6",
-        strokeOpacity: 0.4,
+        strokeOpacity: 0.6,
         strokeWeight: 2,
+        editable: true,
+        draggable: true,
       });
-    } else {
+
+      // Listen for radius changes (user drags the edge)
+      circleRef.current.addListener("radius_changed", () => {
+        if (!circleRef.current || !onRadiusChange) return;
+        isUserEditingRef.current = true;
+        const newRadiusM = circleRef.current.getRadius();
+        // Snap to 0.5km increments, clamp to 0.5-10
+        const newRadiusKm = Math.round((newRadiusM / 1000) * 2) / 2;
+        const clamped = Math.max(0.5, Math.min(10, newRadiusKm));
+        onRadiusChange(clamped);
+        // Update zoom to match
+        map.setZoom(getZoomForRadius(clamped));
+        setTimeout(() => { isUserEditingRef.current = false; }, 100);
+      });
+
+      // Listen for center changes (user drags the circle)
+      circleRef.current.addListener("center_changed", () => {
+        if (!circleRef.current || !onCenterChange) return;
+        isUserEditingRef.current = true;
+        const newCenter = circleRef.current.getCenter();
+        if (newCenter) {
+          onCenterChange({ lat: newCenter.lat(), lng: newCenter.lng() });
+        }
+        setTimeout(() => { isUserEditingRef.current = false; }, 100);
+      });
+    } else if (!isUserEditingRef.current) {
+      // Only update programmatically if user isn't dragging
       circleRef.current.setCenter(center);
       circleRef.current.setRadius(radiusKm * 1000);
     }
 
-    // Pan and zoom to fit the circle
-    map.panTo(center);
-    map.setZoom(getZoomForRadius(radiusKm));
-  }, [map, center, radiusKm]);
+    if (!isUserEditingRef.current) {
+      map.panTo(center);
+      map.setZoom(getZoomForRadius(radiusKm));
+    }
+  }, [map, center, radiusKm, onRadiusChange, onCenterChange]);
 
   useEffect(() => {
     updateCircle();
   }, [updateCircle]);
 
-  // Cleanup on unmount
   useEffect(() => {
     return () => {
       if (circleRef.current) {
+        google.maps.event.clearInstanceListeners(circleRef.current);
         circleRef.current.setMap(null);
         circleRef.current = null;
       }
@@ -121,9 +151,11 @@ function RadiusCircle({ center, radiusKm }: RadiusCircleProps) {
 interface ScanPreviewMapProps {
   center: { lat: number; lng: number };
   radiusKm: number;
+  onRadiusChange?: (newRadiusKm: number) => void;
+  onCenterChange?: (newCenter: { lat: number; lng: number }) => void;
 }
 
-export function ScanPreviewMap({ center, radiusKm }: ScanPreviewMapProps) {
+export function ScanPreviewMap({ center, radiusKm, onRadiusChange, onCenterChange }: ScanPreviewMapProps) {
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY;
 
   if (!apiKey) {
@@ -138,12 +170,12 @@ export function ScanPreviewMap({ center, radiusKm }: ScanPreviewMapProps) {
 
   return (
     <APIProvider apiKey={apiKey}>
-      <div className="h-[280px] rounded-lg overflow-hidden border border-white/10">
+      <div className="relative h-[320px] rounded-xl overflow-hidden border border-border/60">
         <Map
           defaultCenter={center}
           defaultZoom={getZoomForRadius(radiusKm)}
           mapId="mapko-preview-map"
-          gestureHandling="cooperative"
+          gestureHandling="greedy"
           disableDefaultUI={true}
           zoomControl={true}
           mapTypeControl={false}
@@ -151,8 +183,17 @@ export function ScanPreviewMap({ center, radiusKm }: ScanPreviewMapProps) {
           fullscreenControl={false}
           styles={darkMapStyle}
         >
-          <RadiusCircle center={center} radiusKm={radiusKm} />
+          <RadiusCircle
+            center={center}
+            radiusKm={radiusKm}
+            onRadiusChange={onRadiusChange}
+            onCenterChange={onCenterChange}
+          />
         </Map>
+        {/* Radius indicator overlay */}
+        <div className="absolute bottom-3 left-3 bg-black/70 backdrop-blur-sm rounded-lg px-3 py-1.5 text-xs text-white/90 border border-white/10">
+          <span className="text-blue-400 font-semibold">{radiusKm} km</span> radius — drag edge to resize
+        </div>
       </div>
     </APIProvider>
   );

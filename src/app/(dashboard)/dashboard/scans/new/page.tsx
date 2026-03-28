@@ -366,7 +366,12 @@ export default function NewScanPage() {
             transition={{ duration: 0.3 }}
             className="rounded-xl overflow-hidden border border-border/60"
           >
-            <ScanPreviewMap center={centerCoords} radiusKm={radiusKm} />
+            <ScanPreviewMap
+              center={centerCoords}
+              radiusKm={radiusKm}
+              onRadiusChange={(r) => setRadiusKm(r)}
+              onCenterChange={(c) => setCenterCoords(c)}
+            />
           </motion.div>
         ) : (
           <div className="h-[200px] rounded-xl bg-card/40 border border-dashed border-border/60 flex flex-col items-center justify-center gap-2">

@@ -33,9 +33,14 @@ export interface Scan {
   status: ScanStatus;
   total_businesses: number;
   error_message: string | null;
+  share_token: string | null;
+  is_public: boolean;
   created_at: string;
   updated_at: string;
 }
+
+// ─── Lead Status (CRM) ──────────────────────────────────────
+export type LeadStatus = 'new' | 'contacted' | 'interested' | 'proposal' | 'closed' | 'not_interested';
 
 // ─── Business ─────────────────────────────────────────────────
 export interface Business {
@@ -54,6 +59,9 @@ export interface Business {
   photo_count: number;
   business_status: string;
   google_data: Record<string, unknown>;
+  lead_status: LeadStatus;
+  notes: string | null;
+  last_contacted_at: string | null;
   created_at: string;
 }
 

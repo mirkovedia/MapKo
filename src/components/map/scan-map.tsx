@@ -1,17 +1,18 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import {
   APIProvider,
   Map,
   AdvancedMarker,
   InfoWindow,
   useAdvancedMarkerRef,
+  useMap,
 } from "@vis.gl/react-google-maps";
-import { Star, Globe, Share2, ExternalLink } from "lucide-react";
+import { Star, Globe, Share2, ExternalLink, MapPin, Flame } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { cn, getScoreColor } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import type { BusinessWithAnalysis } from "@/types";
 import Link from "next/link";
 
@@ -142,8 +143,55 @@ function MarkerWithInfo({
   );
 }
 
+/**
+ * HeatmapLayer component — uses the raw Google Maps instance
+ * to manage a google.maps.visualization.HeatmapLayer.
+ */
+function HeatmapOverlay({ businesses }: { businesses: BusinessWithAnalysis[] }) {
+  const map = useMap();
+  const heatmapRef = useRef<google.maps.visualization.HeatmapLayer | null>(null);
+
+  useEffect(() => {
+    if (!map || !google.maps.visualization) return;
+
+    const data = businesses.map((b) => ({
+      location: new google.maps.LatLng(b.lat, b.lng),
+      weight: (b.analysis?.opportunity_score ?? 50) / 100,
+    }));
+
+    if (!heatmapRef.current) {
+      heatmapRef.current = new google.maps.visualization.HeatmapLayer({
+        data,
+        map,
+        radius: 30,
+        opacity: 0.7,
+        gradient: [
+          "rgba(0, 0, 0, 0)",
+          "#22c55e",
+          "#eab308",
+          "#f97316",
+          "#ef4444",
+          "#dc2626",
+        ],
+      });
+    } else {
+      heatmapRef.current.setData(data);
+      heatmapRef.current.setMap(map);
+    }
+
+    return () => {
+      if (heatmapRef.current) {
+        heatmapRef.current.setMap(null);
+      }
+    };
+  }, [map, businesses]);
+
+  return null;
+}
+
 export function ScanMap({ businesses, center, radiusKm }: ScanMapProps) {
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY;
+  const [viewMode, setViewMode] = useState<"pins" | "heatmap">("pins");
 
   if (!apiKey) {
     return (
@@ -156,7 +204,7 @@ export function ScanMap({ businesses, center, radiusKm }: ScanMapProps) {
   }
 
   return (
-    <APIProvider apiKey={apiKey}>
+    <APIProvider apiKey={apiKey} libraries={["visualization"]}>
       <div className="h-[300px] md:h-[500px] rounded-lg overflow-hidden relative">
         <Map
           defaultCenter={center}
@@ -170,10 +218,42 @@ export function ScanMap({ businesses, center, radiusKm }: ScanMapProps) {
           fullscreenControl={true}
           styles={darkMapStyle}
         >
-          {businesses.map((biz) => (
-            <MarkerWithInfo key={biz.id} business={biz} />
-          ))}
+          {viewMode === "pins" &&
+            businesses.map((biz) => (
+              <MarkerWithInfo key={biz.id} business={biz} />
+            ))}
+          {viewMode === "heatmap" && (
+            <HeatmapOverlay businesses={businesses} />
+          )}
         </Map>
+
+        {/* View mode toggle */}
+        <div className="absolute top-2 left-2 sm:top-4 sm:left-4 flex rounded-lg overflow-hidden border border-white/10">
+          <button
+            onClick={() => setViewMode("pins")}
+            className={cn(
+              "flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium transition-colors",
+              viewMode === "pins"
+                ? "bg-blue-500 text-white"
+                : "bg-slate-900/90 text-white/70 hover:text-white hover:bg-slate-800/90"
+            )}
+          >
+            <MapPin className="h-3.5 w-3.5" />
+            Pins
+          </button>
+          <button
+            onClick={() => setViewMode("heatmap")}
+            className={cn(
+              "flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium transition-colors",
+              viewMode === "heatmap"
+                ? "bg-blue-500 text-white"
+                : "bg-slate-900/90 text-white/70 hover:text-white hover:bg-slate-800/90"
+            )}
+          >
+            <Flame className="h-3.5 w-3.5" />
+            Heat Map
+          </button>
+        </div>
 
         {/* Legend */}
         <div className="absolute bottom-2 left-2 sm:bottom-4 sm:left-4 bg-slate-900/90 backdrop-blur-sm rounded-lg px-2 py-2 sm:px-4 sm:py-3 border border-white/10">

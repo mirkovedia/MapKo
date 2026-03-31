@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import {
@@ -23,6 +23,8 @@ import {
   ChevronUp,
   Download,
   Loader2,
+  StickyNote,
+  CalendarClock,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -30,7 +32,19 @@ import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import { cn, getScoreColor, getScoreLabel } from "@/lib/utils";
 import { isMobileNumber, formatPhoneForWhatsApp } from "@/lib/utils/phone-helper";
-import type { BusinessWithAnalysis } from "@/types";
+import type { BusinessWithAnalysis, LeadStatus } from "@/types";
+
+// ── Lead status config ──────────────────────────────────────────
+const LEAD_STATUS_CONFIG: Record<LeadStatus, { label: string; color: string; bg: string; border: string }> = {
+  new: { label: "New", color: "text-gray-400", bg: "bg-gray-400/10", border: "border-gray-400/20" },
+  contacted: { label: "Contacted", color: "text-blue-400", bg: "bg-blue-400/10", border: "border-blue-400/20" },
+  interested: { label: "Interested", color: "text-amber-400", bg: "bg-amber-400/10", border: "border-amber-400/20" },
+  proposal: { label: "Proposal", color: "text-purple-400", bg: "bg-purple-400/10", border: "border-purple-400/20" },
+  closed: { label: "Closed", color: "text-green-400", bg: "bg-green-400/10", border: "border-green-400/20" },
+  not_interested: { label: "Not Interested", color: "text-red-400", bg: "bg-red-400/10", border: "border-red-400/20" },
+};
+
+const LEAD_STATUSES = Object.keys(LEAD_STATUS_CONFIG) as LeadStatus[];
 
 function BoolIndicator({ value, label }: { value: boolean; label: string }) {
   return (
@@ -75,6 +89,83 @@ export default function BusinessDetailPage() {
   const [error, setError] = useState<string | null>(null);
   const [downloadingPdf, setDownloadingPdf] = useState(false);
   const [pdfError, setPdfError] = useState<string | null>(null);
+  // CRM state
+  const [statusDropdownOpen, setStatusDropdownOpen] = useState(false);
+  const [notes, setNotes] = useState("");
+  const [savingNotes, setSavingNotes] = useState(false);
+  const [updatingStatus, setUpdatingStatus] = useState(false);
+  const notesTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const statusDropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close status dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (statusDropdownRef.current && !statusDropdownRef.current.contains(e.target as Node)) {
+        setStatusDropdownOpen(false);
+      }
+    }
+    if (statusDropdownOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => document.removeEventListener("mousedown", handleClickOutside);
+    }
+  }, [statusDropdownOpen]);
+
+  // Sync notes state when business loads
+  useEffect(() => {
+    if (business) {
+      setNotes(business.notes || "");
+    }
+  }, [business]);
+
+  // CRM update handler
+  const updateCrmField = useCallback(async (data: { lead_status?: LeadStatus; notes?: string; last_contacted_at?: string }) => {
+    if (!business) return;
+    try {
+      const res = await fetch(`/api/businesses/${id}/status`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      if (!res.ok) throw new Error("Failed to update");
+      const result = await res.json();
+      setBusiness((prev) => prev ? { ...prev, ...result.business } : prev);
+    } catch {
+      setError("Failed to update CRM data");
+    }
+  }, [business, id]);
+
+  async function handleStatusChange(newStatus: LeadStatus) {
+    setStatusDropdownOpen(false);
+    setUpdatingStatus(true);
+    await updateCrmField({
+      lead_status: newStatus,
+      last_contacted_at: new Date().toISOString(),
+    });
+    setUpdatingStatus(false);
+  }
+
+  function handleNotesChange(value: string) {
+    setNotes(value);
+    // Debounce auto-save
+    if (notesTimeoutRef.current) clearTimeout(notesTimeoutRef.current);
+    notesTimeoutRef.current = setTimeout(async () => {
+      setSavingNotes(true);
+      await updateCrmField({ notes: value });
+      setSavingNotes(false);
+    }, 1000);
+  }
+
+  function handleNotesBlur() {
+    // Save immediately on blur if there's a pending timeout
+    if (notesTimeoutRef.current) {
+      clearTimeout(notesTimeoutRef.current);
+      notesTimeoutRef.current = null;
+    }
+    if (business && notes !== (business.notes || "")) {
+      setSavingNotes(true);
+      updateCrmField({ notes }).then(() => setSavingNotes(false));
+    }
+  }
 
   async function handleDownloadPdf() {
     if (downloadingPdf) return;
@@ -294,6 +385,121 @@ export default function BusinessDetailPage() {
                 {scoreLabel}
               </p>
             </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* CRM Section */}
+      <Card className="glass">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <StickyNote className="h-5 w-5 text-purple-400" />
+            Lead Management
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {/* Status selector */}
+            <div>
+              <label className="text-xs font-medium text-muted-foreground mb-1.5 block">
+                Lead Status
+              </label>
+              <div className="relative" ref={statusDropdownRef}>
+                <button
+                  onClick={() => setStatusDropdownOpen(!statusDropdownOpen)}
+                  disabled={updatingStatus}
+                  className={cn(
+                    "w-full flex items-center justify-between gap-2 rounded-lg px-3 py-2 text-sm font-semibold border cursor-pointer transition-all hover:opacity-80",
+                    LEAD_STATUS_CONFIG[(business.lead_status || "new") as LeadStatus].bg,
+                    LEAD_STATUS_CONFIG[(business.lead_status || "new") as LeadStatus].color,
+                    LEAD_STATUS_CONFIG[(business.lead_status || "new") as LeadStatus].border
+                  )}
+                >
+                  {updatingStatus ? (
+                    <Spinner size="sm" />
+                  ) : (
+                    LEAD_STATUS_CONFIG[(business.lead_status || "new") as LeadStatus].label
+                  )}
+                  <ChevronDown className="h-4 w-4" />
+                </button>
+                {statusDropdownOpen && (
+                  <div className="absolute z-50 top-full left-0 mt-1 w-full rounded-lg border border-border bg-card shadow-xl py-1">
+                    {LEAD_STATUSES.map((s) => {
+                      const cfg = LEAD_STATUS_CONFIG[s];
+                      return (
+                        <button
+                          key={s}
+                          onClick={() => handleStatusChange(s)}
+                          className={cn(
+                            "w-full text-left px-3 py-2 text-sm font-medium hover:bg-accent/50 transition-colors flex items-center gap-2",
+                            (business.lead_status || "new") === s && "bg-accent/30"
+                          )}
+                        >
+                          <span className={cn("h-2.5 w-2.5 rounded-full", cfg.bg, cfg.border, "border")} />
+                          <span className={cfg.color}>{cfg.label}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Last contacted */}
+            <div>
+              <label className="text-xs font-medium text-muted-foreground mb-1.5 block">
+                Last Contacted
+              </label>
+              <div className="flex items-center gap-2 rounded-lg px-3 py-2 bg-white/5 border border-border/40 h-[38px]">
+                <CalendarClock className="h-4 w-4 text-muted-foreground shrink-0" />
+                <span className="text-sm">
+                  {business.last_contacted_at
+                    ? new Date(business.last_contacted_at).toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })
+                    : "Never"}
+                </span>
+              </div>
+            </div>
+
+            {/* Notes saving indicator */}
+            <div>
+              <label className="text-xs font-medium text-muted-foreground mb-1.5 block">
+                Status
+              </label>
+              <div className="flex items-center gap-2 rounded-lg px-3 py-2 bg-white/5 border border-border/40 h-[38px]">
+                {savingNotes ? (
+                  <>
+                    <Spinner size="sm" />
+                    <span className="text-sm text-muted-foreground">Saving notes...</span>
+                  </>
+                ) : (
+                  <>
+                    <Check className="h-4 w-4 text-green-400" />
+                    <span className="text-sm text-muted-foreground">Notes saved</span>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Notes textarea */}
+          <div className="mt-4">
+            <label className="text-xs font-medium text-muted-foreground mb-1.5 block">
+              Notes
+            </label>
+            <textarea
+              value={notes}
+              onChange={(e) => handleNotesChange(e.target.value)}
+              onBlur={handleNotesBlur}
+              placeholder="Add notes about this lead..."
+              className="w-full rounded-lg border border-border/40 bg-white/5 px-3 py-2 text-sm min-h-[80px] resize-y focus:outline-none focus:ring-1 focus:ring-ring transition-colors placeholder:text-muted-foreground/50"
+              rows={3}
+            />
           </div>
         </CardContent>
       </Card>

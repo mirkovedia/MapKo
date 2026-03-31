@@ -23,7 +23,7 @@ export async function GET(
   // Get scan
   const { data: scan, error } = await supabase
     .from("scans")
-    .select("id, query_text, status, lat, lng, radius_km, categories, total_businesses, error_message, created_at, updated_at")
+    .select("id, query_text, status, lat, lng, radius_km, categories, total_businesses, error_message, share_token, is_public, created_at, updated_at")
     .eq("id", id)
     .eq("user_id", user.id)
     .single();

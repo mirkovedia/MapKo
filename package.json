@@ -21,6 +21,7 @@
     "framer-motion": "^11.15.0",
     "jspdf": "^4.2.1",
     "lucide-react": "^0.468.0",
+    "nanoid": "^5.1.7",
     "next": "^15.1.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

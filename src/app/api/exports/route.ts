@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { scanId, format = "csv" } = await req.json();
+  const { scanId, format = "csv", businessIds } = await req.json();
   if (!scanId) {
     return NextResponse.json({ error: "Missing scanId" }, { status: 400 });
   }
@@ -35,11 +35,17 @@ export async function POST(req: NextRequest) {
 
   // Fetch businesses with analyses
   const admin = createAdminClient();
-  const { data: businesses } = await admin
+  let bizQuery = admin
     .from("businesses")
     .select(`*, analysis:analyses(*)`)
-    .eq("scan_id", scanId)
-    .order("created_at");
+    .eq("scan_id", scanId);
+
+  // If specific business IDs provided, only export those
+  if (Array.isArray(businessIds) && businessIds.length > 0) {
+    bizQuery = bizQuery.in("id", businessIds);
+  }
+
+  const { data: businesses } = await bizQuery.order("created_at");
 
   if (!businesses || businesses.length === 0) {
     return NextResponse.json({ error: "No businesses to export" }, { status: 400 });
@@ -56,6 +62,7 @@ export async function POST(req: NextRequest) {
       Rating: b.rating || "",
       "Review Count": b.review_count,
       "Photo Count": b.photo_count,
+      "Lead Status": b.lead_status || "new",
       "Opportunity Score": a?.opportunity_score || 0,
       "Has Website": a?.has_website ? "Yes" : "No",
       "Has SSL": a?.website_ssl ? "Yes" : "No",

@@ -44,9 +44,23 @@ export async function analyzeWebsite(url: string): Promise<WebsiteAnalysis> {
     normalizedUrl = `https://${normalizedUrl}`;
   }
 
-  // Validate URL format
+  // Validar formato y bloquear IPs privadas/internas (SSRF protection)
   try {
-    new URL(normalizedUrl);
+    const parsed = new URL(normalizedUrl);
+    const hostname = parsed.hostname;
+    if (
+      hostname === "localhost" ||
+      hostname === "0.0.0.0" ||
+      /^127\./.test(hostname) ||
+      /^10\./.test(hostname) ||
+      /^192\.168\./.test(hostname) ||
+      /^172\.(1[6-9]|2\d|3[01])\./.test(hostname) ||
+      /^169\.254\./.test(hostname) ||
+      hostname.endsWith(".internal") ||
+      hostname.endsWith(".local")
+    ) {
+      return result;
+    }
   } catch {
     return result;
   }

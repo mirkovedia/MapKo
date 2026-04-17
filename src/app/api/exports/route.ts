@@ -16,9 +16,22 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { scanId, format = "csv", businessIds } = await req.json();
+  const body = await req.json();
+  const scanId = body.scanId as string;
+  const format = (body.format as string) || "csv";
+  const businessIds = body.businessIds as string[] | undefined;
+
   if (!scanId) {
     return NextResponse.json({ error: "Missing scanId" }, { status: 400 });
+  }
+
+  // Validar formato y limitar businessIds para evitar queries masivos
+  if (format !== "csv" && format !== "xlsx") {
+    return NextResponse.json({ error: "Invalid format. Use 'csv' or 'xlsx'" }, { status: 400 });
+  }
+
+  if (Array.isArray(businessIds) && businessIds.length > 500) {
+    return NextResponse.json({ error: "Too many businessIds (max 500)" }, { status: 400 });
   }
 
   // Verify user owns this scan

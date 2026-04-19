@@ -1,9 +1,5 @@
-import { Spinner } from "@/components/ui/spinner";
+import { SkeletonDashboard } from "@/components/ui/skeleton";
 
 export default function Loading() {
-  return (
-    <div className="flex items-center justify-center min-h-[60vh]">
-      <Spinner size="lg" />
-    </div>
-  );
+  return <SkeletonDashboard />;
 }

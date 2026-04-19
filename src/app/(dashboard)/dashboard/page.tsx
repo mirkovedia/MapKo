@@ -19,6 +19,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
+import { SkeletonDashboard } from "@/components/ui/skeleton";
 import { useProfile } from "@/components/providers/profile-provider";
 import type { Scan } from "@/types";
 
@@ -73,11 +74,7 @@ export default function DashboardPage() {
   const scans = scansData || [];
 
   if (loading && scans.length === 0) {
-    return (
-      <div className="flex items-center justify-center min-h-[60vh]">
-        <Spinner size="lg" />
-      </div>
-    );
+    return <SkeletonDashboard />;
   }
 
   if (error) {
@@ -91,7 +88,7 @@ export default function DashboardPage() {
 
   const totalBusinesses = scans.reduce((sum, s) => sum + (s.total_businesses || 0), 0);
   const completedScans = scans.filter((s) => s.status === "completed");
-  const avgScore =
+  const avgBizPerScan =
     completedScans.length > 0
       ? Math.round(
           completedScans.reduce((sum, s) => sum + (s.total_businesses || 0), 0) /
@@ -111,7 +108,7 @@ export default function DashboardPage() {
   const stats = [
     { label: "Total Scans", value: scans.length, icon: Radar },
     { label: "Businesses Found", value: totalBusinesses, icon: Building2 },
-    { label: "Avg Opportunity", value: avgScore, icon: TrendingUp },
+    { label: "Avg per Scan", value: avgBizPerScan, icon: TrendingUp },
     { label: "Exports", value: 0, icon: Download },
   ];
 

@@ -46,6 +46,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { Spinner } from "@/components/ui/spinner";
+import { SkeletonScanDetail } from "@/components/ui/skeleton";
 import { cn, getScoreColor, getScoreLabel } from "@/lib/utils";
 import { isMobileNumber, formatPhoneForWhatsApp } from "@/lib/utils/phone-helper";
 import dynamic from "next/dynamic";
@@ -531,11 +532,7 @@ export default function ScanDetailPage() {
 
   // ── Loading state ────────────────────────────────────────────
   if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-[60vh]">
-        <Spinner size="lg" />
-      </div>
-    );
+    return <SkeletonScanDetail />;
   }
 
   if (error && !scan) {
